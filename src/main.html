@@ -9,8 +9,30 @@
 <body>
 	<header>Kick_Off</header>
 	<div id="content">
-		<div id="map"></div>
-	
+
+		<div id="mapwrap"> 
+			<div id="map"></div>
+			<div class="category">
+				<ul>
+					<li id="allMenu" onclick="changeMarker('all')">
+						<span class="ico_comm ico_all"></span>
+						모두
+					</li>
+					<li id="potholeMenu" onclick="changeMarker('pothole')">
+						<span class="ico_comm ico_pothole"></span>
+						포트홀
+					</li>
+					<li id="bumpMenu" onclick="changeMarker('bump')">
+						<span class="ico_comm ico_bump"></span>
+						방지턱
+					</li>
+					<li id="schoolMenu" onclick="changeMarker('school')">
+						<span class="ico_comm ico_school"></span>
+						스쿨존
+					</li>
+				</ul>
+		</div>
+
 		<div id="right">
 			<div id="statistics"></div>
 			<div id="user_info"></div>
