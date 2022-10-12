@@ -1,0 +1,36 @@
+body {
+	margin: 0;
+}
+
+header {
+	padding-top: 2%;
+	padding-bottom: 2%;
+	font-size:xx-large;
+	text-align: center;
+	background-color: #2E8B57;
+	color: white;
+}
+
+#content {
+	display: flex;
+}
+
+#map {
+	width:500px;
+	height:700px;
+	flex:auto;
+}
+
+#statistics {
+	width:700px;
+	height:350px;
+	background-color: #ffb0b0;
+	flex:auto;
+}
+
+#user_info {
+	width:700px;
+	height:350px;
+	background-color: #a5c9ff;
+	flex:auto;
+}
