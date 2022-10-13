@@ -1,5 +1,6 @@
 body {
 	margin: 0;
+	background-color: #FAFAFA;
 }
 
 header {
@@ -42,7 +43,6 @@ header {
 #statistics {
 	width:50%;
 	height: 408.5px;
-	background-color: #ffb0b0;
 	flex:auto;
 	float: right;
 }
@@ -50,7 +50,87 @@ header {
 #user_info {
 	width:50%;
 	height: 408.5px;
-	background-color: #a5c9ff;
+	background-color: #FAFAFA;
 	flex:auto;
 	float: right;
+	align: center;
+}
+
+#users_table {
+	margin:auto; 
+	border-color: #000;
+    border: 2px solid #444444;
+	width: 95%;
+	height: 95%;
+	background-color: white;
+	border-collapse: collapse;
+	border-radius: 5px;
+	border-style: hidden;
+	box-shadow: 0 0 0 1px #000;
+}
+
+#user_table_1 {
+	margin-top:8%;
+	margin-right: 5%;
+	border-color: #000;
+    border: 2px solid #444444;
+	float: right;
+	width: 30%;
+	height: 25%;
+	background-color: white;
+	border-collapse: collapse;
+	border-radius: 5px;
+	border-style: hidden;
+	box-shadow: 0 0 0 1px #000;
+}
+
+#user_table_1 th {
+	background-color: #cefbbb;
+}
+
+#user_table_2 {
+	margin:auto; 
+	margin-top: 3%;
+	border-color: #000;
+    border: 2px solid #444444;
+	width: 90%;
+	height: 25%;
+	background-color: white;
+	border-collapse: collapse;
+	border-radius: 5px;
+	border-style: hidden;
+	box-shadow: 0 0 0 1px #000;
+}
+
+tr, td, th {
+	text-align: center;
+	border-bottom: 1px solid #444444;
+}
+
+th {
+    background-color: #bbdefb;
+  }
+
+#my_modal {
+	display: none;
+	width: 70%;
+	height: 60%;
+	padding: 20px 60px;
+	background-color: #fefefe;
+	border: 1px solid #888;
+	border-radius: 5px;
+}
+
+#my_modal .modal_close_btn {
+	position: absolute;
+	top: 10px;
+	right: 10px;
+}
+
+#user_img {
+	padding: 7%;
+	padding-top: 9%;
+	padding-bottom: 5%;
+	width: 100px;
+	height: 100px;
 }
