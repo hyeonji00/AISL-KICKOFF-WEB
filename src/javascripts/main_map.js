@@ -77,20 +77,18 @@ function createMarker(position, image) {
     
     return marker;  
 }   
-   
+
 // 포트홀 마커를 생성하고 포트홀 마커 배열에 추가
 function createPotholeMarkers() {
     
     for (var i = 0; i < potholePositions.length; i++) {  
         
-        var imageSize = new kakao.maps.Size(22, 26),
-            imageOptions = {  
-                spriteOrigin: new kakao.maps.Point(10, 0),    
-                spriteSize: new kakao.maps.Size(36, 98)  
-            };     
+        var imageSize = new kakao.maps.Size(26, 26); 
         
+        var markerSrc = '../../assets/pothole_color.png'
+
         // 마커이미지와 마커 생성
-        var markerImage = createMarkerImage(markerImageSrc, imageSize, imageOptions),    
+        var markerImage = createMarkerImage(markerSrc, imageSize),    
             marker = createMarker(potholePositions[i], markerImage);  
         
         // 생성된 마커를 포트홀 마커 배열에 추가
@@ -108,13 +106,11 @@ function setPotholeMarkers(map) {
 function createBumpMarkers() {
     for (var i = 0; i < bumpPositions.length; i++) {
         
-        var imageSize = new kakao.maps.Size(22, 26),
-            imageOptions = {   
-                spriteOrigin: new kakao.maps.Point(10, 36),    
-                spriteSize: new kakao.maps.Size(36, 98)  
-            };       
-     
-        var markerImage = createMarkerImage(markerImageSrc, imageSize, imageOptions),    
+        var imageSize = new kakao.maps.Size(26, 26);       
+
+        var markerSrc = '../../assets/bump_color.png'
+
+        var markerImage = createMarkerImage(markerSrc, imageSize),    
             marker = createMarker(bumpPositions[i], markerImage);  
 
         bumpMarkers.push(marker);    

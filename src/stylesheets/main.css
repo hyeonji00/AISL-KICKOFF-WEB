@@ -16,40 +16,45 @@ header {
 }
 
 #mapwrap{
-	width:500px;
-	height:700px;
+	width:50%;
+	top: 10px;
+	height:817PX;
 	flex:auto;
 }
 .category, .category *{margin:0;padding:0;color:#000;}   
-.category {position:absolute;top:110px;left:10px;width:200px;height:50px;z-index:10;border:1px solid black;font-family:'Malgun Gothic','맑은 고딕',sans-serif;font-size:12px;text-align:center;background-color:#fff;}
-.category .menu_selected {background:#959393;color:#fff;border-left:1px solid #915B2F;border-right:1px solid #915B2F;margin:0 -1px;} 
-.category li{list-style:none;float:left;width:50px;height:45px;padding-top:5px;cursor:pointer;} 
-.category .ico_comm {display:block;margin:0 auto 2px;width:22px;height:26px;background:url('https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/category.png') no-repeat;} 
+.category {position:absolute;top:15%;left:1%;width:200px;height:50px;z-index:10;border:1px solid black;font-family:'Malgun Gothic','맑은 고딕',sans-serif;font-size:12px;text-align:center;background-color:#fff;}
+.category .menu_selected {background:#959393;color:#fff;border-left:1px solid #915B2F;border-right:1px solid #915B2F;margin:0 -1px;height:50px;} 
+.category li{list-style:none;float:left;width:50px;height:45px;cursor:pointer;} 
+.category .ico_comm {display:block;margin:0 auto 2px;width:22px;height:16px;} 
 .category .ico_all {background-position:-10px 0;}  
 .category .ico_pothole {background-position:-10px -36px;}   
 .category .ico_bump {background-position:-10px -72px;} 
 .category .ico_school {background-position:-10px -108px;} 
 
 #map{
-	width:700px;
-	height:700px;
+	width:50%;
+	height: 100%;
 	flex:auto;
 	float: left;
 }
 
 #statistics {
-	width:700px;
-	height:350px;
+	width:50%;
+	height: 408.5px;
 	background-color: #ffb0b0;
 	flex:auto;
 	float: right;
 }
 
 #user_info {
-	width:700px;
-	height:350px;
+	width:50%;
+	height: 408.5px;
 	background-color: #a5c9ff;
 	flex:auto;
 	float: right;
 }
 
+.user_info {
+	font-size: large;
+	
+}
