@@ -6,11 +6,11 @@ const loginBtn = document.getElementById('LOGIN_BTN');
 
 function color() {
     if(loginId.value.length>0 && loginPw.value.length>=5){
-        loginBtn.style.backgroundColor = "#2E8B57";
+        loginBtn.style.backgroundColor = "#ffd53b";
         loginBtn.disabled = false;
     }
     else{
-        loginBtn.style.backgroundColor = "#8FBC8F";
+        loginBtn.style.backgroundColor = "#e9ce6d";
         loginBtn.disabled = true;
     }
 }

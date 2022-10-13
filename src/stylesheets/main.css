@@ -7,8 +7,9 @@ header {
 	padding-bottom: 2%;
 	font-size:xx-large;
 	text-align: center;
-	background-color: #2E8B57;
+	background-color: #ffd53b;
 	color: white;
+	font-weight: bold;
 }
 
 #content {
@@ -52,9 +53,4 @@ header {
 	background-color: #a5c9ff;
 	flex:auto;
 	float: right;
-}
-
-.user_info {
-	font-size: large;
-	
 }

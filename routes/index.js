@@ -1,10 +1,7 @@
-var express = require('express');
-var router = express.Router();
+const express = require('express');
+const app = express();
+const port = 5000;
 
+app.get('/',(req,res)=>res.send('Server Start'));
 
-/* GET home page. */
-router.get('/', function (req, res, next) {
-  res.render('index', { title: 'Express' });
-});
-
-module.exports = router; 
+app.listen(port, ()=>console.log(`Server Start. Port : ${port}`))
