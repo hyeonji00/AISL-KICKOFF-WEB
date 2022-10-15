@@ -10,8 +10,8 @@
 	<header>Kick_Off</header>
 	<div id="content">
 
-		<div id="mapwrap"> 
-			<div id="map"></div>
+		<div id="box"> 
+			<div id="map">
 			<div class="category">
 				<ul>
 					<li id="allMenu" onclick="changeMarker('all')">
@@ -31,16 +31,54 @@
 						스쿨존
 					</li>
 				</ul>
+			</div>
 		</div>
 
 		<div id="right">
 			<div id="statistics">
-			
+				<form id="meter_part">
+					<h3 id="today">오늘의 위험 운행 현황</h3>
+					<p>급정거</p>
+					<meter min="0" max="100" low="30" high="60" optimum="10" value="15"></meter>
+					<span>전체 사용자 중 15%</span>
+					<br>
+					<p>방지턱 과속</p>
+					<meter min="0" max="100" low="30" high="60" optimum="10" value="70"></meter>
+					<span>전체 사용자 중 70%</span>
+					<br>
+					<p>보호구역 과속</p>
+					<meter min="0" max="100" low="30" high="60" optimum="10" value="40"></meter>
+					<span>전체 사용자 중 40%</span>
+					<br>
+				</form>
+
+				<form id="graph_part">
+					<div class="vGraph">
+						<ul>
+							<li><span class="gTerm">급정거</span><span class="gBar" style="height:10%"><span>15건</span></span></li>
+							<li><span class="gTerm">방지턱<br>과속</span><span class="gBar" style="height:78%"><span>70건</span></span></li>
+							<li><span class="gTerm">보호구역<br>과속</span><span class="gBar" style="height:33%"><span>40건</span></span></li>
+							<li><span class="gTerm">전체</span><span class="gBar" style="height:100%"><span>125건</span></span></li>
+						</ul>
+					</div>
+				</form>				
 			</div>
 			<div id="user_info">
 				<div id="my_modal">
 					<img id="user_img" src="../assets/user.png">
-					<table id="user_table_1">
+					<table id="table_1" class="user_table_1">
+						<tr>
+							<th>급정거</th>
+							<th>방지턱 과속</th>
+							<th>보호구역 과속</th>
+						</tr>
+						<tr>
+							<td>3회</td>
+							<td>1회</td>
+							<td>2회</td>
+						</tr>
+					</table>
+					<table id="table_2" class="user_table_1">
 						<tr>
 							<th>등급</th>
 							<th>안전/위험</th>
@@ -51,7 +89,7 @@
 						</tr>
 					</table>
 					
-					<table id="user_table_2">
+					<table id="table_3" class="user_table_2">
 						<tr>
 							<th>이름</th>
 							<th>나이</th>
@@ -72,7 +110,7 @@
 					<a class="modal_close_btn">X</a>
 				</div>
 
-				<table id="users_table">
+				<table id="table_3" class="users_table">
 					<tr>
 						<th>이름</th>
 						<th>나이</th>
