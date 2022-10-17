@@ -24,7 +24,7 @@ header {
 	flex:auto;
 }
 .category, .category *{margin:0;padding:0;color:#000;}   
-.category {position:absolute;top:15%;left:1%;width:200px;height:50px;z-index:10;border:1px solid black;font-family:'Malgun Gothic','맑은 고딕',sans-serif;font-size:12px;text-align:center;background-color:#fff;}
+.category {position:absolute;top:1%;left:1%;width:200px;height:50px;z-index:10;border:1px solid black;font-family:'Malgun Gothic','맑은 고딕',sans-serif;font-size:12px;text-align:center;background-color:#fff;}
 .category .menu_selected {background:#959393;color:#fff;border-left:1px solid #915B2F;border-right:1px solid #915B2F;margin:0 -1px;height:50px;} 
 .category li{list-style:none;float:left;width:50px;height:45px;cursor:pointer;} 
 .category .ico_comm {display:block;margin:0 auto 2px;width:22px;height:16px;} 
@@ -50,13 +50,14 @@ header {
 #meter_part {
 	float: left;
 	padding: 20px;
-	height: 80%;
+	height: 60%;
 	width: 30%;
 	padding-right: 0;
+	padding-left: 50px;
 }
 
 #meter_part p {
-	padding-top: 15%;
+	padding-top: 10%;
 }
 
 #meter_part span {
@@ -65,13 +66,13 @@ header {
 
 #graph_part {
 	float: right;
-	height: 100%;
+	height: 60%;
 	width: 60%;
 	padding: 20px;
 }
 
 
-.vGraph{ padding:10%; padding-top: 30%;}
+.vGraph{padding-top: 20%; padding-right: 50px;}
 .vGraph ul{ margin:0; padding:0; height:200px; border:1px solid #ddd; border-top:0; border-right:0; font-size:11px; font-family:Tahoma, Geneva, sans-serif; list-style:none;}
 .vGraph ul:after{ content:""; display:block; clear:both;}
 .vGraph li{ float:left; display:inline; width:15%; height:100%; margin:0 3%; position:relative; text-align:center; white-space:nowrap; padding-left: 10px;}
@@ -126,7 +127,7 @@ header {
 
 .user_table_2 {
 	margin:auto; 
-	margin-top: 3%;
+	margin-top: 5%;
 	border-color: #000;
     border: 2px solid #DBDBDB;
 	width: 90%;
