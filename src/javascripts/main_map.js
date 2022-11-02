@@ -1,3 +1,87 @@
+// 임의의 데이터 받아오기
+
+var myHeaders = new Headers();
+myHeaders.append("Accept", "application/json");
+myHeaders.append("X-M2M-RI", "12345");
+myHeaders.append("X-M2M-Origin", "{{aei}}");
+myHeaders.append("Content-Type", "application/vnd.onem2m-res+json; ty=4");
+
+var raw = "{\n    \"m2m:cin\": {\n        \"con\": \"aisl 37.5518018 127.0736345 23.2135\"\n    }\n}";
+
+var requestOptions = {
+    method: 'POST',
+    headers: myHeaders,
+    body: raw,
+    redirect: 'follow'
+};
+
+var string
+var arr
+var lat
+var long
+
+setInterval(function(){
+    fetch("http://203.250.148.120:20519/Mobius/kick/gps", requestOptions)
+    .then(response => response.json())
+    .then(result => {
+        console.log(result)
+        console.log(string = result["m2m:cin"].con)
+        arr = string.split(" ")
+        console.log("lat:", lat = Number(arr[1]))
+        console.log("long:", long = Number(arr[2]))
+    })
+    .then(result => {
+        // 킥보드 위치 받아서 띄우기
+        navigator.geolocation.getCurrentPosition(locationLoadSuccess,locationLoadError)
+    })
+    .catch(error => console.log('error', error));
+}, 1000)
+
+
+// 실시간으로 데이터 불러오기
+
+/* 
+
+var myHeaders = new Headers();
+myHeaders.append("Accept", "application/json");
+myHeaders.append("X-M2M-RI", "12345");
+myHeaders.append("X-M2M-Origin", "SOrigin");
+
+var requestOptions = {
+    method: 'GET',
+    headers: myHeaders,
+    redirect: 'follow'
+};
+
+
+var string
+var arr
+var lat
+var long
+
+setInterval(function(){
+    fetch("http://203.250.148.120:20519/Mobius/kick/gps/la", requestOptions)
+    .then(response => response.json())
+    .then(result => {
+        console.log(result)
+        console.log(string = result["m2m:cin"].con)
+        arr = string.split(" ")
+        console.log("lat:", lat = Number(arr[1]))
+        console.log("long:", long = Number(arr[2]))
+    })
+    .then(result => {
+        // 킥보드 위치 받아서 띄우기
+        navigator.geolocation.getCurrentPosition(locationLoadSuccess,locationLoadError)
+    })
+    .catch(error => console.log('error', error));
+}, 1000)
+
+*/
+
+////////////////////////////////////////////////////////////////////////////////////
+
+// 맵 기본틀 띄우기
+
 var container = document.getElementById('map'); //지도를 담을 영역의 DOM 레퍼런스
 
 var options = { //지도를 생성할 때 필요한 기본 옵션
@@ -9,15 +93,23 @@ var map = new kakao.maps.Map(container, options); //지도 생성 및 객체 리
 
 
 ////////////////////////////////////////////////////////////////////////////////////
+
+// 킥보드 위치 띄우기
+
 function locationLoadSuccess(pos){
     // 현재 위치 받아오기
-    var currentPos = new kakao.maps.LatLng(pos.coords.latitude,pos.coords.longitude);
+    //var currentPos = new kakao.maps.LatLng(pos.coords.latitude,pos.coords.longitude);
+
+    // 킥보드 현재 위치 받아오기
+    // 37.5518018 127.0736345
+
+    var currentPos = new kakao.maps.LatLng(lat, long);
 
     // 지도 이동(기존 위치와 가깝다면 부드럽게 이동)
     map.panTo(currentPos);
 
     // 마커 생성
-    var marker = new kakao.maps.Marker({
+    marker = new kakao.maps.Marker({
         position: currentPos
     });
 
@@ -29,11 +121,6 @@ function locationLoadSuccess(pos){
 function locationLoadError(pos){
     alert('위치 정보를 가져오는데 실패했습니다.');
 };
-
-// 위치 가져오기
-navigator.geolocation.getCurrentPosition(locationLoadSuccess,locationLoadError);
-
-
 
 ////////////////////////////////////////////////////////////////////////////////////
 // 필터링 -> 포트홀, 방지턱 gps 좌표 설정
