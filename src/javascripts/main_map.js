@@ -1,5 +1,5 @@
 // 임의의 데이터 받아오기
-
+/*
 var myHeaders = new Headers();
 myHeaders.append("Accept", "application/json");
 myHeaders.append("X-M2M-RI", "12345");
@@ -21,7 +21,7 @@ var lat
 var long
 
 setInterval(function(){
-    fetch("http://203.250.148.120:20519/Mobius/kick/gps", requestOptions)
+    fetch("http://203.253.128.161:7579/Mobius/kick/gps", requestOptions)
     .then(response => response.json())
     .then(result => {
         console.log(result)
@@ -36,12 +36,49 @@ setInterval(function(){
     })
     .catch(error => console.log('error', error));
 }, 1000)
+*/
+
+
+// 임의의 포트홀 데이터
+var myHeaders = new Headers();
+myHeaders.append("Accept", "application/json");
+myHeaders.append("X-M2M-RI", "12345");
+myHeaders.append("X-M2M-Origin", "{{aei}}");
+myHeaders.append("Content-Type", "application/vnd.onem2m-res+json; ty=4");
+
+var raw = "{\n    \"m2m:cin\": {\n        \"con\": \"37.5518018 127.0736345\"\n    }\n}";
+
+var requestOptions = {
+    method: 'POST',
+    headers: myHeaders,
+    body: raw,
+    redirect: 'follow'
+};
+
+var string
+var arr
+var pothole_lat
+var pothole_long
+
+fetch("http://203.253.128.161:7579/Mobius/kick/pot_hole", requestOptions)
+    .then(response => response.json())
+    .then(result => {
+        console.log(result)
+        console.log(string = result["m2m:cin"].con)
+        arr = string.split(" ")
+        console.log("pothole_lat:", pothole_lat = Number(arr[0]))
+        console.log("pothole_long:", pothole_long = Number(arr[1]))
+    })
+    .then(result => {
+        //
+    })
+    .catch(error => console.log('error', error));
 
 
 // 실시간으로 데이터 불러오기
 
-/* 
 
+/*
 var myHeaders = new Headers();
 myHeaders.append("Accept", "application/json");
 myHeaders.append("X-M2M-RI", "12345");
@@ -60,7 +97,7 @@ var lat
 var long
 
 setInterval(function(){
-    fetch("http://203.250.148.120:20519/Mobius/kick/gps/la", requestOptions)
+    fetch("http://203.253.128.161:7579/Mobius/kick/gps/la", requestOptions)
     .then(response => response.json())
     .then(result => {
         console.log(result)
@@ -75,7 +112,6 @@ setInterval(function(){
     })
     .catch(error => console.log('error', error));
 }, 1000)
-
 */
 
 ////////////////////////////////////////////////////////////////////////////////////
@@ -103,7 +139,8 @@ function locationLoadSuccess(pos){
     // 킥보드 현재 위치 받아오기
     // 37.5518018 127.0736345
 
-    var currentPos = new kakao.maps.LatLng(lat, long);
+    var currentPos = new kakao.maps.LatLng(37.5518018, 127.0736345);
+    //var currentPos = new kakao.maps.LatLng(lat, long);
 
     // 지도 이동(기존 위치와 가깝다면 부드럽게 이동)
     map.panTo(currentPos);
