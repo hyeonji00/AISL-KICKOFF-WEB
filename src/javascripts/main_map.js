@@ -9,11 +9,11 @@ myHeaders.append("Content-Type", "application/vnd.onem2m-res+json; ty=4");
 var raw = "{\n    \"m2m:cin\": {\n        \"con\" : \"aisl 37.5518018 127.0736345 23.2135\"\n    }\n}";
 
 var requestOptions = {
-  method: 'POST',
-  headers: myHeaders,
-  body: raw,
-  redirect: 'follow'
-};
+    method: 'POST',
+    headers: myHeaders,
+    body: raw,
+    redirect: 'follow'
+};  
 
 var string
 var arr
@@ -42,9 +42,9 @@ myHeaders.append("X-M2M-RI", "12345");
 myHeaders.append("X-M2M-Origin", "SOrigin");
 
 var requestOptions = {
-  method: 'GET',
-  headers: myHeaders,
-  redirect: 'follow'
+    method: 'GET',
+    headers: myHeaders,
+    redirect: 'follow'
 };
 
 var string
@@ -53,19 +53,19 @@ var lat
 var long
 
 fetch("http://203.253.128.161:7579/Mobius/kick/gps/la", requestOptions)
-  .then(response => response.json())
-  .then(result => {
+    .then(response => response.json())
+    .then(result => {
         console.log(result)
         console.log(string = result["m2m:cin"].con)
         arr = string.split(" ")
         console.log("lat:", lat = Number(arr[1]))
         console.log("long:", long = Number(arr[2]))
-  })
-  .then(result => {
+    })
+    .then(result => {
         // 킥보드 위치 받아서 띄우기
         navigator.geolocation.getCurrentPosition(locationLoadSuccess,locationLoadError)
     })
-  .catch(error => console.log('error', error));
+    .catch(error => console.log('error', error));
 
 
 
@@ -77,9 +77,9 @@ myHeaders.append("X-M2M-RI", "12345");
 myHeaders.append("X-M2M-Origin", "SOrigin");
 
 var requestOptions = {
-  method: 'GET',
-  headers: myHeaders,
-  redirect: 'follow'
+    method: 'GET',
+    headers: myHeaders,
+    redirect: 'follow'
 };
 */
 var pothole_lat
@@ -95,8 +95,8 @@ var circle
 
 
 fetch("http://203.253.128.161:7579/Mobius/kick/web_map/fopt", requestOptions)
-  .then(response => response.json())
-  .then(result => {
+    .then(response => response.json())
+    .then(result => {
     console.log(pothole_lat = result["m2m:agr"]["m2m:rsp"][0]["pc"]["m2m:cin"].con.split(" ")[0])
     console.log(pothole_long = result["m2m:agr"]["m2m:rsp"][0]["pc"]["m2m:cin"].con.split(" ")[1])
 
@@ -105,16 +105,14 @@ fetch("http://203.253.128.161:7579/Mobius/kick/web_map/fopt", requestOptions)
 
     console.log(school_lat = result["m2m:agr"]["m2m:rsp"][2]["pc"]["m2m:cin"].con.split(" ")[1])
     console.log(school_long = result["m2m:agr"]["m2m:rsp"][2]["pc"]["m2m:cin"].con.split(" ")[2])
-  })
-  .then(result => {
+    })
+    .then(result => {
     ////////////////////////////////////////////////////////////////////////////////////
     // 필터링 -> 포트홀, 방지턱 gps 좌표 설정
 
     // 포트홀 마커 표시 좌표 배열
     potholePositions = [
         new kakao.maps.LatLng(pothole_lat, pothole_long),
-        new kakao.maps.LatLng(37.5509, 127.0738),
-        new kakao.maps.LatLng(37.5509, 127.075)
     ]
 
     // 방지턱 마커가 표시 좌표 배열
@@ -348,8 +346,8 @@ function locationLoadSuccess(pos){
     // 지도 이동(기존 위치와 가깝다면 부드럽게 이동)
     map.panTo(currentPos);
     
-    var imageSrc = 'https://ssl.pstatic.net/static/maps/m/pin_rd.png', // 마커이미지의 주소  
-        imageSize = new kakao.maps.Size(20, 20), // 마커이미지 크기
+    var imageSrc = '../../assets/logo_img.png', // 마커이미지의 주소  
+        imageSize = new kakao.maps.Size(26, 26), // 마커이미지 크기
         imageOption = {offset: new kakao.maps.Point(27, 69)}; // 마커이미지의 옵션
         
     // 마커의 이미지정보를 가지고 있는 마커이미지 생성
