@@ -20,10 +20,10 @@ fetch("http://203.253.128.161:7579/Mobius/kick/gps/la", requestOptions)
     .then(response => response.json())
     .then(result => {
         // console.log(result)
-        console.log(string = result["m2m:cin"].con)
+        string = result["m2m:cin"].con
         arr = string.split(" ")
-        console.log("lat:", lat = Number(arr[1]))
-        console.log("long:", long = Number(arr[2]))
+        lat = Number(arr[1])
+        long = Number(arr[2])
     })
     .then(result => {
         // 킥보드 위치 받아서 띄우기
@@ -37,7 +37,6 @@ fetch("http://203.253.128.161:7579/Mobius/kick/gps/la", requestOptions)
 
 var pothole_ID = []
 var buff_ID = []
-var school_ID = []
 
 var lat
 var long
@@ -71,15 +70,11 @@ fetch("http://203.253.128.161:7579/Mobius/kick/web_gps/fopt", requestOptions)
 
         for (var i = 0; i < result["m2m:agr"]["m2m:rsp"][1]["pc"]["m2m:uril"].length; i++)        {
             buff_ID[i] = result["m2m:agr"]["m2m:rsp"][1]["pc"]["m2m:uril"][i].split("/")[3]
-        }
-
-        for (var i = 0; i < result["m2m:agr"]["m2m:rsp"][2]["pc"]["m2m:uril"].length; i++)        {
-            school_ID[i] = result["m2m:agr"]["m2m:rsp"][2]["pc"]["m2m:uril"][i].split("/")[3]
-        }        
+        }    
     })
     .then(result => {
         //console.log(pothole_ID, buff_ID, school_ID)
-        var ID = [pothole_ID, buff_ID, school_ID]
+        var ID = [pothole_ID, buff_ID]
 
         // 포트홀 position 저장
         for (var i = 0; i < ID[0].length; i++) {
@@ -94,9 +89,7 @@ fetch("http://203.253.128.161:7579/Mobius/kick/web_gps/fopt", requestOptions)
             headers: myHeaders,
             redirect: 'follow'
             };
-
-            var j =0
-
+            var j = 0
             fetch("http://203.253.128.161:7579/Mobius/kick/pot_hole/"+ ID[0][i], requestOptions)
             .then(response => response.json())
             .then(result => {
@@ -104,34 +97,194 @@ fetch("http://203.253.128.161:7579/Mobius/kick/web_gps/fopt", requestOptions)
                 long = result["m2m:cin"]["con"].split(" ")[1]
                 potholePositions.push(new kakao.maps.LatLng(lat, long))
             })
-            .catch(error => console.log('error', error));
-        }
-
-        // 방지턱 position 저장
-        for (var i = 0; i < ID[1].length; i++) {
-
-            var myHeaders = new Headers();
-            myHeaders.append("Accept", "application/json");
-            myHeaders.append("X-M2M-RI", "12345");
-            myHeaders.append("X-M2M-Origin", "SOrigin");
-
-            var requestOptions = {
-            method: 'GET',
-            headers: myHeaders,
-            redirect: 'follow'
-            };
-
-            fetch("http://203.253.128.161:7579/Mobius/kick/buff_data/"+ ID[1][i], requestOptions)
-            .then(response => response.json())
             .then(result => {
-                lat = result["m2m:cin"]["con"].split(" ")[1]
-                long = result["m2m:cin"]["con"].split(" ")[2]
+                // 방지턱 position 저장
+                for (var j = 0; j < ID[1].length; j++) {
 
-                bumpPositions[i] = new kakao.maps.LatLng(lat, long)
+                    var myHeaders = new Headers();
+                    myHeaders.append("Accept", "application/json");
+                    myHeaders.append("X-M2M-RI", "12345");
+                    myHeaders.append("X-M2M-Origin", "SOrigin");
+
+                    var requestOptions = {
+                    method: 'GET',
+                    headers: myHeaders,
+                    redirect: 'follow'
+                    };
+
+                    fetch("http://203.253.128.161:7579/Mobius/kick/buff_data/"+ ID[1][j], requestOptions)
+                    .then(response => response.json())
+                    .then(result => {
+                        lat = result["m2m:cin"]["con"].split(" ")[1]
+                        long = result["m2m:cin"]["con"].split(" ")[2]
+
+                        bumpPositions.push(new kakao.maps.LatLng(lat, long))
+                    })
+                    .then(result => {
+                        ////////////////////////////////////////////////////////////////////////////////////
+                        // 필터링 -> 포트홀, 방지턱 gps 좌표 설정
+                    
+                        // 포트홀 마커 표시 좌표 배열    
+                    
+                        var markerImageSrc = 'https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/category.png';
+                            potholeMarkers = [], // 포트홀 마커 객체를 가지고 있을 배열
+                            bumpMarkers = [],
+                    
+                            
+                        createPotholeMarkers(); // 포트홀 마커를 생성하고 포트홀 마커 배열에 추가
+                        createBumpMarkers();
+                    
+                    
+                    
+                        // 마커이미지의 주소와, 크기, 옵션으로 마커 이미지를 생성하여 리턴
+                        function createMarkerImage(src, size, options) {
+                            var markerImage = new kakao.maps.MarkerImage(src, size, options);
+                            return markerImage;            
+                        }
+                    
+                        // 좌표와 마커이미지를 받아 마커를 생성하여 리턴
+                        function createMarker(position, image) {
+                            var marker = new kakao.maps.Marker({
+                                position: position,
+                                image: image
+                            });
+                            
+                            return marker;  
+                        }   
+                    
+                        // 포트홀 마커를 생성하고 포트홀 마커 배열에 추가
+                        function createPotholeMarkers() {  
+                            for (var i = 0; i < potholePositions.length; i++) {   
+                                // console.log(potholePositions[i]) 
+                                var imageSize = new kakao.maps.Size(26, 26); 
+                                
+                                var markerSrc = '../../assets/pothole_color.png'
+                    
+                                // 마커이미지와 마커 생성
+                                var markerImage = createMarkerImage(markerSrc, imageSize),    
+                                    marker = createMarker(potholePositions[i], markerImage);  
+                                
+                                // 생성된 마커를 포트홀 마커 배열에 추가
+                                potholeMarkers.push(marker);
+                            }     
+                        }
+                    
+                        // 포트홀 마커들의 지도 표시 여부를 설정
+                        function setPotholeMarkers(map) {    
+                            for (var i = 0; i < potholeMarkers.length; i++) {  
+                                potholeMarkers[i].setMap(map);  
+                            }        
+                        }
+                    
+                        function createBumpMarkers() {
+                            for (var i = 0; i < bumpPositions.length; i++) {
+
+                                // console.log(bumpPositions[i])
+                                
+                                var imageSize = new kakao.maps.Size(26, 26);       
+                    
+                                var markerSrc = '../../assets/bump_color.png'
+                    
+                                var markerImage = createMarkerImage(markerSrc, imageSize),    
+                                    marker = createMarker(bumpPositions[i], markerImage);
+                                bumpMarkers.push(marker);    
+                            }        
+                        }
+                    
+                        function setBumpMarkers(map) {        
+                            for (var i = 0; i < bumpMarkers.length; i++) {  
+                                bumpMarkers[i].setMap(map);
+                            }        
+                        }
+                    
+                        ///////////////////////////////////////////////////////////////////////////////////
+                        // 어린이 보호 구역 : gps 제대로 설정
+                        function createSchoolZone(){
+                            if (circle) {
+                                circle.setMap(null);
+                            }
+                    
+                            circle = new kakao.maps.Circle({
+                                center : new kakao.maps.LatLng(37.552727, 127.072662),  // 원의 중심좌표
+                                radius: 300, // 미터 단위의 원의 반지름
+                                strokeWeight: 1, // 선 두께
+                                strokeColor: '#75B8FA', // 선 색깔
+                                strokeOpacity: 1, // 선의 불투명도 (1에서 0 사이의 값이며 0에 가까울수록 투명)
+                                strokeStyle: 'dashed', // 선의 스타일
+                                fillColor: '#CFE7FF', // 채우기 색깔
+                                fillOpacity: 0.5  // 채우기 불투명도   
+                            }); 
+                            circle.setMap(map);
+                        }
+                    
+                        // 카테고리를 클릭했을 때 type에 따라 카테고리의 스타일, 지도에 표시되는 마커 변경
+                        function changeMarker(type){
+                            console.log("?????")
+
+                            var allMenu = document.getElementById('allMenu');
+                            var potholeMenu = document.getElementById('potholeMenu');
+                            var bumpMenu = document.getElementById('bumpMenu');
+                            var schoolMenu = document.getElementById('schoolMenu');
+                    
+                    
+                            if (type === 'all'){
+                                allMenu.className = 'menu_selected';
+                                potholeMenu.className = '';
+                                bumpMenu.className = '';
+                                schoolMenu.className = '';
+                                
+                                // 모두 표시
+                                setPotholeMarkers(map);
+                                setBumpMarkers(map);
+                    
+                                createSchoolZone();
+                            }
+                            else if (type === 'pothole') {
+                            
+                                allMenu.className = '';
+                                potholeMenu.className = 'menu_selected';
+                                bumpMenu.className = '';
+                                schoolMenu.className = '';
+                                
+                                setPotholeMarkers(map);
+                                setBumpMarkers(null);
+                    
+                                circle.setMap(null);
+                            } 
+                            else if (type === 'bump') {
+                    
+                                allMenu.className = '';
+                                potholeMenu.className = '';
+                                bumpMenu.className = 'menu_selected';
+                                schoolMenu.className = '';
+                                
+                                setPotholeMarkers(null);
+                                setBumpMarkers(map);
+                    
+                                circle.setMap(null);
+                                
+                            } 
+                            else if (type === 'school'){
+                                allMenu.className = '';
+                                potholeMenu.className = '';
+                                bumpMenu.className = '';
+                                schoolMenu.className = 'menu_selected';
+                    
+                                setPotholeMarkers(null);
+                                setBumpMarkers(null);
+                    
+                                createSchoolZone();
+                            }
+                        } 
+                        changeMarker('all')
+                    })
+                    .catch(error => console.log('error', error));
+                }
             })
             .catch(error => console.log('error', error));
         }
 
+        /*
         // 스쿨존 position 저장
         for (var i = 0; i < ID[2].length; i++) {
 
@@ -158,165 +311,8 @@ fetch("http://203.253.128.161:7579/Mobius/kick/web_gps/fopt", requestOptions)
         }
 
         console.log(potholePositions, bumpPositions, circle)
+        */
 
-    })
-    .then(result => {
-        ////////////////////////////////////////////////////////////////////////////////////
-        // 필터링 -> 포트홀, 방지턱 gps 좌표 설정
-    
-        // 포트홀 마커 표시 좌표 배열    
-    
-        var markerImageSrc = 'https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/category.png';
-            potholeMarkers = [], // 포트홀 마커 객체를 가지고 있을 배열
-            bumpMarkers = [],
-    
-            
-        createPotholeMarkers(); // 포트홀 마커를 생성하고 포트홀 마커 배열에 추가
-        createBumpMarkers();
-    
-    
-    
-        // 마커이미지의 주소와, 크기, 옵션으로 마커 이미지를 생성하여 리턴
-        function createMarkerImage(src, size, options) {
-            var markerImage = new kakao.maps.MarkerImage(src, size, options);
-            return markerImage;            
-        }
-    
-        // 좌표와 마커이미지를 받아 마커를 생성하여 리턴
-        function createMarker(position, image) {
-            var marker = new kakao.maps.Marker({
-                position: position,
-                image: image
-            });
-            
-            return marker;  
-        }   
-    
-        // 포트홀 마커를 생성하고 포트홀 마커 배열에 추가
-        function createPotholeMarkers() {  
-            console.log(potholePositions.length) 
-            console.log(potholePositions)
-            
-            
-            for (var i = 0; i < potholePositions.length; i++) {    
-                var imageSize = new kakao.maps.Size(26, 26); 
-                
-                var markerSrc = '../../assets/pothole_color.png'
-    
-                // 마커이미지와 마커 생성
-                var markerImage = createMarkerImage(markerSrc, imageSize),    
-                    marker = createMarker(potholePositions[i], markerImage);  
-                
-                // 생성된 마커를 포트홀 마커 배열에 추가
-                potholeMarkers.push(marker);
-            }     
-        }
-    
-        // 포트홀 마커들의 지도 표시 여부를 설정
-        function setPotholeMarkers(map) {    
-            for (var i = 0; i < potholeMarkers.length; i++) {  
-                potholeMarkers[i].setMap(map);  
-            }        
-        }
-    
-        function createBumpMarkers() {
-            for (var i = 0; i < bumpPositions.length; i++) {
-                
-                var imageSize = new kakao.maps.Size(26, 26);       
-    
-                var markerSrc = '../../assets/bump_color.png'
-    
-                var markerImage = createMarkerImage(markerSrc, imageSize),    
-                    marker = createMarker(bumpPositions[i], markerImage);  
-                console.log(bumpPositions)
-                bumpMarkers.push(marker);    
-            }        
-        }
-    
-        function setBumpMarkers(map) {        
-            for (var i = 0; i < bumpMarkers.length; i++) {  
-                bumpMarkers[i].setMap(map);
-            }        
-        }
-    
-        ///////////////////////////////////////////////////////////////////////////////////
-        // 어린이 보호 구역 : gps 제대로 설정
-        function createSchoolZone(){
-            if (circle) {
-                circle.setMap(null);
-            }
-    
-            circle = new kakao.maps.Circle({
-                center : new kakao.maps.LatLng(0, 0),  // 원의 중심좌표
-                radius: 300, // 미터 단위의 원의 반지름
-                strokeWeight: 1, // 선 두께
-                strokeColor: '#75B8FA', // 선 색깔
-                strokeOpacity: 1, // 선의 불투명도 (1에서 0 사이의 값이며 0에 가까울수록 투명)
-                strokeStyle: 'dashed', // 선의 스타일
-                fillColor: '#CFE7FF', // 채우기 색깔
-                fillOpacity: 0.5  // 채우기 불투명도   
-            }); 
-            circle.setMap(map);
-        }
-    
-        // 카테고리를 클릭했을 때 type에 따라 카테고리의 스타일, 지도에 표시되는 마커 변경
-        function changeMarker(type){
-            var allMenu = document.getElementById('allMenu');
-            var potholeMenu = document.getElementById('potholeMenu');
-            var bumpMenu = document.getElementById('bumpMenu');
-            var schoolMenu = document.getElementById('schoolMenu');
-    
-    
-            if (type === 'all'){
-                allMenu.className = 'menu_selected';
-                potholeMenu.className = '';
-                bumpMenu.className = '';
-                schoolMenu.className = '';
-                
-                // 모두 표시
-                setPotholeMarkers(map);
-                setBumpMarkers(map);
-    
-                //createSchoolZone();
-            }
-            else if (type === 'pothole') {
-            
-                allMenu.className = '';
-                potholeMenu.className = 'menu_selected';
-                bumpMenu.className = '';
-                schoolMenu.className = '';
-                
-                setPotholeMarkers(map);
-                setBumpMarkers(null);
-    
-                //circle.setMap(null);
-            } 
-            else if (type === 'bump') {
-    
-                allMenu.className = '';
-                potholeMenu.className = '';
-                bumpMenu.className = 'menu_selected';
-                schoolMenu.className = '';
-                
-                setPotholeMarkers(null);
-                setBumpMarkers(map);
-    
-                //circle.setMap(null);
-                
-            } 
-            else if (type === 'school'){
-                allMenu.className = '';
-                potholeMenu.className = '';
-                bumpMenu.className = '';
-                schoolMenu.className = 'menu_selected';
-    
-                setPotholeMarkers(null);
-                setBumpMarkers(null);
-    
-                //createSchoolZone();
-            }
-        } 
-        changeMarker('all')
     })
     .catch(error => console.log('error', error));
 
@@ -478,6 +474,8 @@ var markerImageSrc = 'https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/c
 
 
 function changeMarker(type){
+
+    console.log("!!!!!!")
         
     var allMenu = document.getElementById('allMenu');
     var potholeMenu = document.getElementById('potholeMenu');
