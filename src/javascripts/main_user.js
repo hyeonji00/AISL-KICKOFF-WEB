@@ -48,4 +48,112 @@ Element.prototype.setStyle = function(styles) {
 
 document.getElementById('user').onclick = function() { modal('my_modal');}
 
+/*
+document.getElementById("u1_1").innerHTML = "id1"
+document.getElementById("u1_2").innerHTML = "이름1"
+document.getElementById("u1_3").innerHTML = "나이1"
+document.getElementById("u1_4").innerHTML = "22.11.11"
+document.getElementById("u1_5").innerHTML = "3600"
+document.getElementById("u1_6").innerHTML = "C"
 
+document.getElementById("u2_1").innerHTML = "id1"
+document.getElementById("u2_2").innerHTML = "이름1"
+document.getElementById("u2_3").innerHTML = "나이1"
+document.getElementById("u2_4").innerHTML = "22.11.11"
+document.getElementById("u2_5").innerHTML = "3600"
+document.getElementById("u2_6").innerHTML = "C"
+
+document.getElementById("u3_1").innerHTML = "id1"
+document.getElementById("u3_2").innerHTML = "이름1"
+document.getElementById("u3_3").innerHTML = "나이1"
+document.getElementById("u3_4").innerHTML = "22.11.11"
+document.getElementById("u3_5").innerHTML = "3600"
+document.getElementById("u3_6").innerHTML = "C"
+
+document.getElementById("u4_1").innerHTML = "id1"
+document.getElementById("u4_2").innerHTML = "이름1"
+document.getElementById("u4_3").innerHTML = "나이1"
+document.getElementById("u4_4").innerHTML = "22.11.11"
+document.getElementById("u4_5").innerHTML = "3600"
+document.getElementById("u4_6").innerHTML = "C"
+
+document.getElementById("u5_1").innerHTML = "id1"
+document.getElementById("u5_2").innerHTML = "이름1"
+document.getElementById("u5_3").innerHTML = "나이1"
+document.getElementById("u5_4").innerHTML = "22.11.11"
+document.getElementById("u5_5").innerHTML = "3600"
+document.getElementById("u5_6").innerHTML = "C"
+
+document.getElementById("u6_1").innerHTML = "id1"
+document.getElementById("u6_2").innerHTML = "이름1"
+document.getElementById("u6_3").innerHTML = "나이1"
+document.getElementById("u6_4").innerHTML = "22.11.11"
+document.getElementById("u6_5").innerHTML = "3600"
+document.getElementById("u6_6").innerHTML = "C"
+*/
+
+
+var myHeaders = new Headers();
+myHeaders.append("Accept", "application/json");
+myHeaders.append("X-M2M-RI", "12345");
+myHeaders.append("X-M2M-Origin", "SOrigin");
+
+var requestOptions = {
+	method: 'GET',
+	headers: myHeaders,
+	redirect: 'follow'
+};
+
+ID_list = []
+
+fetch("http://203.253.128.161:7579/Mobius/kick_user/Account?fu=1&ty=4", requestOptions)
+	.then(response => response.json())
+	.then(result => {
+
+		function sleep(ms) {
+			const wakeUpTime = Date.now() + ms;
+			while (Date.now() < wakeUpTime) {}
+			}
+
+		for (var i = 0; i < result["m2m:uril"].length; i++) {
+			if (i == 6){
+				break
+			}
+			ID_list[i] = result["m2m:uril"][i].split("/")[3]
+
+			var j = 0
+			
+			fetch("http://203.253.128.161:7579/Mobius/kick_user/Account/" + ID_list[i], requestOptions)
+			.then(response => response.json())
+			.then(result => {
+				var rst_list = result["m2m:cin"]["con"].split(" ")
+				console.log(rst_list)
+				document.getElementById("u"+String(j+1)+"_1").innerHTML = rst_list[0]
+				document.getElementById("u"+String(j+1)+"_2").innerHTML = rst_list[1]
+				document.getElementById("u"+String(j+1)+"_3").innerHTML = rst_list[2]
+				document.getElementById("u"+String(j+1)+"_4").innerHTML = rst_list[4]
+				document.getElementById("u"+String(j+1)+"_5").innerHTML = rst_list[5]
+				document.getElementById("u"+String(j+1)+"_6").innerHTML = rst_list[6]
+
+				if (j == 0){
+					document.getElementById("m_1").innerHTML = rst_list[0]
+					document.getElementById("m_2").innerHTML = rst_list[1]
+					document.getElementById("m_3").innerHTML = rst_list[2]
+					document.getElementById("m_4").innerHTML = rst_list[4]
+					document.getElementById("m_5").innerHTML = rst_list[5]
+					document.getElementById("m_6").innerHTML = rst_list[6]
+
+					document.getElementById("rating").innerHTML = rst_list[6]
+					document.getElementById("safety_danger").innerHTML = rst_list[7]
+
+					document.getElementById("sudden_stop").innerHTML = rst_list[9]
+					document.getElementById("buff_speed").innerHTML = rst_list[10]
+					document.getElementById("schoolzone_speed").innerHTML = rst_list[11]
+				}
+
+				j++
+			})
+			.catch(error => console.log('error', error));
+		}
+	})
+	.catch(error => console.log('error', error));

@@ -21,7 +21,7 @@ var lat
 var long
 
 setInterval(function(){
-    fetch("http://203.250.148.120:20519/Mobius/kick/gps", requestOptions)
+    fetch("http://203.250.148.120:20519/Mobius/kick/gps/la", requestOptions)
     .then(response => response.json())
     .then(result => {
         console.log(result)
@@ -36,7 +36,6 @@ setInterval(function(){
     })
     .catch(error => console.log('error', error));
 }, 1000)
-
 
 // 실시간으로 데이터 불러오기
 
