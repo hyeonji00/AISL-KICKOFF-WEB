@@ -45,8 +45,6 @@ var potholePositions = []
 var bumpPositions = []
 var circle
 
-
-// 그룹 gps 모든 데이터 get
 var myHeaders = new Headers();
 myHeaders.append("Accept", "application/json");
 myHeaders.append("X-M2M-RI", "12345");
@@ -121,162 +119,10 @@ fetch("http://203.253.128.161:7579/Mobius/kick/web_gps/fopt", requestOptions)
                         bumpPositions.push(new kakao.maps.LatLng(lat, long))
                     })
                     .then(result => {
-                        ////////////////////////////////////////////////////////////////////////////////////
-                        // 필터링 -> 포트홀, 방지턱 gps 좌표 설정
-                    
-                        // 포트홀 마커 표시 좌표 배열    
-                    
-                        var markerImageSrc = 'https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/category.png';
-                            potholeMarkers = [], // 포트홀 마커 객체를 가지고 있을 배열
-                            bumpMarkers = [],
-                    
-                            
-                        createPotholeMarkers(); // 포트홀 마커를 생성하고 포트홀 마커 배열에 추가
-                        createBumpMarkers();
-                    
-                    
-                    
-                        // 마커이미지의 주소와, 크기, 옵션으로 마커 이미지를 생성하여 리턴
-                        function createMarkerImage(src, size, options) {
-                            var markerImage = new kakao.maps.MarkerImage(src, size, options);
-                            return markerImage;            
-                        }
-                    
-                        // 좌표와 마커이미지를 받아 마커를 생성하여 리턴
-                        function createMarker(position, image) {
-                            var marker = new kakao.maps.Marker({
-                                position: position,
-                                image: image
-                            });
-                            
-                            return marker;  
-                        }   
-                    
-                        // 포트홀 마커를 생성하고 포트홀 마커 배열에 추가
-                        function createPotholeMarkers() {  
-                            for (var i = 0; i < potholePositions.length; i++) {   
-                                // console.log(potholePositions[i]) 
-                                var imageSize = new kakao.maps.Size(26, 26); 
-                                
-                                var markerSrc = '../../assets/pothole_color.png'
-                    
-                                // 마커이미지와 마커 생성
-                                var markerImage = createMarkerImage(markerSrc, imageSize),    
-                                    marker = createMarker(potholePositions[i], markerImage);  
-                                
-                                // 생성된 마커를 포트홀 마커 배열에 추가
-                                potholeMarkers.push(marker);
-                            }     
-                        }
-                    
-                        // 포트홀 마커들의 지도 표시 여부를 설정
-                        function setPotholeMarkers(map) {    
-                            for (var i = 0; i < potholeMarkers.length; i++) {  
-                                potholeMarkers[i].setMap(map);  
-                            }        
-                        }
-                    
-                        function createBumpMarkers() {
-                            for (var i = 0; i < bumpPositions.length; i++) {
+                        changeMarker("all")
 
-                                // console.log(bumpPositions[i])
-                                
-                                var imageSize = new kakao.maps.Size(26, 26);       
-                    
-                                var markerSrc = '../../assets/bump_color.png'
-                    
-                                var markerImage = createMarkerImage(markerSrc, imageSize),    
-                                    marker = createMarker(bumpPositions[i], markerImage);
-                                bumpMarkers.push(marker);    
-                            }        
-                        }
-                    
-                        function setBumpMarkers(map) {        
-                            for (var i = 0; i < bumpMarkers.length; i++) {  
-                                bumpMarkers[i].setMap(map);
-                            }        
-                        }
-                    
-                        ///////////////////////////////////////////////////////////////////////////////////
-                        // 어린이 보호 구역 : gps 제대로 설정
-                        function createSchoolZone(){
-                            if (circle) {
-                                circle.setMap(null);
-                            }
-                    
-                            circle = new kakao.maps.Circle({
-                                center : new kakao.maps.LatLng(37.552727, 127.072662),  // 원의 중심좌표
-                                radius: 300, // 미터 단위의 원의 반지름
-                                strokeWeight: 1, // 선 두께
-                                strokeColor: '#75B8FA', // 선 색깔
-                                strokeOpacity: 1, // 선의 불투명도 (1에서 0 사이의 값이며 0에 가까울수록 투명)
-                                strokeStyle: 'dashed', // 선의 스타일
-                                fillColor: '#CFE7FF', // 채우기 색깔
-                                fillOpacity: 0.5  // 채우기 불투명도   
-                            }); 
-                            circle.setMap(map);
-                        }
-                    
-                        // 카테고리를 클릭했을 때 type에 따라 카테고리의 스타일, 지도에 표시되는 마커 변경
-                        function changeMarker(type){
-                            console.log("?????")
-
-                            var allMenu = document.getElementById('allMenu');
-                            var potholeMenu = document.getElementById('potholeMenu');
-                            var bumpMenu = document.getElementById('bumpMenu');
-                            var schoolMenu = document.getElementById('schoolMenu');
-                    
-                    
-                            if (type === 'all'){
-                                allMenu.className = 'menu_selected';
-                                potholeMenu.className = '';
-                                bumpMenu.className = '';
-                                schoolMenu.className = '';
-                                
-                                // 모두 표시
-                                setPotholeMarkers(map);
-                                setBumpMarkers(map);
-                    
-                                createSchoolZone();
-                            }
-                            else if (type === 'pothole') {
-                            
-                                allMenu.className = '';
-                                potholeMenu.className = 'menu_selected';
-                                bumpMenu.className = '';
-                                schoolMenu.className = '';
-                                
-                                setPotholeMarkers(map);
-                                setBumpMarkers(null);
-                    
-                                circle.setMap(null);
-                            } 
-                            else if (type === 'bump') {
-                    
-                                allMenu.className = '';
-                                potholeMenu.className = '';
-                                bumpMenu.className = 'menu_selected';
-                                schoolMenu.className = '';
-                                
-                                setPotholeMarkers(null);
-                                setBumpMarkers(map);
-                    
-                                circle.setMap(null);
-                                
-                            } 
-                            else if (type === 'school'){
-                                allMenu.className = '';
-                                potholeMenu.className = '';
-                                bumpMenu.className = '';
-                                schoolMenu.className = 'menu_selected';
-                    
-                                setPotholeMarkers(null);
-                                setBumpMarkers(null);
-                    
-                                createSchoolZone();
-                            }
-                        } 
-                        changeMarker('all')
+                        createPotholeMarkers()
+                        createBumpMarkers()
                     })
                     .catch(error => console.log('error', error));
                 }
@@ -379,6 +225,7 @@ function locationLoadError(pos){
 
 // 맵에 마커 띄우기
 
+console.log(potholePositions)
 
 var markerImageSrc = 'https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/category.png';
         potholeMarkers = [], // 포트홀 마커 객체를 가지고 있을 배열
@@ -390,92 +237,92 @@ var markerImageSrc = 'https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/c
 
 
 
-    // 마커이미지의 주소와, 크기, 옵션으로 마커 이미지를 생성하여 리턴
-    function createMarkerImage(src, size, options) {
-        var markerImage = new kakao.maps.MarkerImage(src, size, options);
-        return markerImage;            
-    }
+// 마커이미지의 주소와, 크기, 옵션으로 마커 이미지를 생성하여 리턴
+function createMarkerImage(src, size, options) {
+    var markerImage = new kakao.maps.MarkerImage(src, size, options);
+    return markerImage;            
+}
 
-    // 좌표와 마커이미지를 받아 마커를 생성하여 리턴
-    function createMarker(position, image) {
-        var marker = new kakao.maps.Marker({
-            position: position,
-            image: image
-        });
+// 좌표와 마커이미지를 받아 마커를 생성하여 리턴
+function createMarker(position, image) {
+    var marker = new kakao.maps.Marker({
+        position: position,
+        image: image
+    });
+    
+    return marker;  
+}   
+
+// 포트홀 마커를 생성하고 포트홀 마커 배열에 추가
+function createPotholeMarkers() {
+    
+    for (var i = 0; i < potholePositions.length; i++) {  
         
-        return marker;  
-    }   
-
-    // 포트홀 마커를 생성하고 포트홀 마커 배열에 추가
-    function createPotholeMarkers() {
+        var imageSize = new kakao.maps.Size(26, 26); 
         
-        for (var i = 0; i < potholePositions.length; i++) {  
-            
-            var imageSize = new kakao.maps.Size(26, 26); 
-            
-            var markerSrc = '../../assets/pothole_color.png'
+        var markerSrc = '../../assets/pothole_color.png'
 
-            // 마커이미지와 마커 생성
-            var markerImage = createMarkerImage(markerSrc, imageSize),    
-                marker = createMarker(potholePositions[i], markerImage);  
-            
-            // 생성된 마커를 포트홀 마커 배열에 추가
-            potholeMarkers.push(marker);
-        }     
+        // 마커이미지와 마커 생성
+        var markerImage = createMarkerImage(markerSrc, imageSize),    
+            marker = createMarker(potholePositions[i], markerImage);  
+        
+        // 생성된 마커를 포트홀 마커 배열에 추가
+        potholeMarkers.push(marker);
+    }     
+}
+
+// 포트홀 마커들의 지도 표시 여부를 설정
+function setPotholeMarkers(map) {        
+    for (var i = 0; i < potholeMarkers.length; i++) {  
+        potholeMarkers[i].setMap(map);
+    }        
+}
+
+function createBumpMarkers() {
+    for (var i = 0; i < bumpPositions.length; i++) {
+        
+        var imageSize = new kakao.maps.Size(26, 26);       
+
+        var markerSrc = '../../assets/bump_color.png'
+
+        var markerImage = createMarkerImage(markerSrc, imageSize),    
+            marker = createMarker(bumpPositions[i], markerImage);  
+
+        bumpMarkers.push(marker);    
+    }        
+}
+
+function setBumpMarkers(map) {        
+    for (var i = 0; i < bumpMarkers.length; i++) {  
+        bumpMarkers[i].setMap(map);
+    }        
+}
+
+///////////////////////////////////////////////////////////////////////////////////
+// 어린이 보호 구역 : gps 제대로 설정
+function createSchoolZone(){
+    if (circle) {
+        circle.setMap(null);
     }
 
-    // 포트홀 마커들의 지도 표시 여부를 설정
-    function setPotholeMarkers(map) {        
-        for (var i = 0; i < potholeMarkers.length; i++) {  
-            potholeMarkers[i].setMap(map);
-        }        
-    }
-
-    function createBumpMarkers() {
-        for (var i = 0; i < bumpPositions.length; i++) {
-            
-            var imageSize = new kakao.maps.Size(26, 26);       
-
-            var markerSrc = '../../assets/bump_color.png'
-
-            var markerImage = createMarkerImage(markerSrc, imageSize),    
-                marker = createMarker(bumpPositions[i], markerImage);  
-
-            bumpMarkers.push(marker);    
-        }        
-    }
-
-    function setBumpMarkers(map) {        
-        for (var i = 0; i < bumpMarkers.length; i++) {  
-            bumpMarkers[i].setMap(map);
-        }        
-    }
-
-    ///////////////////////////////////////////////////////////////////////////////////
-    // 어린이 보호 구역 : gps 제대로 설정
-    function createSchoolZone(){
-        if (circle) {
-            circle.setMap(null);
-        }
-
-        circle = new kakao.maps.Circle({
-            center : new kakao.maps.LatLng(0, 0),  // 원의 중심좌표
-            radius: 300, // 미터 단위의 원의 반지름
-            strokeWeight: 1, // 선 두께
-            strokeColor: '#75B8FA', // 선 색깔
-            strokeOpacity: 1, // 선의 불투명도 (1에서 0 사이의 값이며 0에 가까울수록 투명)
-            strokeStyle: 'dashed', // 선의 스타일
-            fillColor: '#CFE7FF', // 채우기 색깔
-            fillOpacity: 0.5  // 채우기 불투명도   
-        }); 
-        circle.setMap(map);
-    }
+    circle = new kakao.maps.Circle({
+        center : new kakao.maps.LatLng(37.552727, 127.072662),  // 원의 중심좌표
+        radius: 300, // 미터 단위의 원의 반지름
+        strokeWeight: 1, // 선 두께
+        strokeColor: '#75B8FA', // 선 색깔
+        strokeOpacity: 1, // 선의 불투명도 (1에서 0 사이의 값이며 0에 가까울수록 투명)
+        strokeStyle: 'dashed', // 선의 스타일
+        fillColor: '#CFE7FF', // 채우기 색깔
+        fillOpacity: 0.5  // 채우기 불투명도   
+    }); 
+    circle.setMap(map);
+}
 
 
 
 function changeMarker(type){
 
-    console.log("!!!!!!")
+    //console.log("!!!!!!")
         
     var allMenu = document.getElementById('allMenu');
     var potholeMenu = document.getElementById('potholeMenu');
@@ -493,7 +340,7 @@ function changeMarker(type){
         setPotholeMarkers(map);
         setBumpMarkers(map);
 
-        //createSchoolZone();
+        createSchoolZone();
     }
     else if (type === 'pothole') {
     
@@ -505,7 +352,7 @@ function changeMarker(type){
         setPotholeMarkers(map);
         setBumpMarkers(null);
 
-        //circle.setMap(null);
+        circle.setMap(null);
     } 
     else if (type === 'bump') {
 
@@ -517,7 +364,7 @@ function changeMarker(type){
         setPotholeMarkers(null);
         setBumpMarkers(map);
 
-        //circle.setMap(null);
+        circle.setMap(null);
         
     } 
     else if (type === 'school'){
@@ -529,6 +376,6 @@ function changeMarker(type){
         setPotholeMarkers(null);
         setBumpMarkers(null);
 
-        //createSchoolZone();
+        createSchoolZone();
     }
 }
