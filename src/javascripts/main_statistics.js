@@ -32,7 +32,7 @@ fetch("http://203.253.128.161:7579/Mobius/kick_user/Account?fu=1&ty=4", requestO
 			.then(response => response.json())
 			.then(result => {
 				var rst_list = result["m2m:cin"]["con"].split(" ")
-				console.log(rst_list)
+				//console.log(rst_list)
 				
 				if (rst_list.length == 12){
 					all += Number(rst_list[8])
@@ -44,7 +44,6 @@ fetch("http://203.253.128.161:7579/Mobius/kick_user/Account?fu=1&ty=4", requestO
 				j++
 
 				if (j == ID_list.length && all != 0) {
-					console.log("마지막")
 					document.getElementById("sudden").value = sudden / all * 100
 					document.getElementById("sudden_ment").innerHTML = "급정거 " + Math.round(sudden / all * 100 * 10) / 10 + "%"
 					document.getElementById("sudden_bar").style = "height:" + (sudden / all).toFixed(2) * 100 + "%"

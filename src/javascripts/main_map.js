@@ -1,34 +1,23 @@
-// 임의의 데이터 받아오기
-
+// 임의의 데이터 생성
 var myHeaders = new Headers();
 myHeaders.append("Accept", "application/json");
 myHeaders.append("X-M2M-RI", "12345");
-myHeaders.append("X-M2M-Origin", "{{aei}}");
-myHeaders.append("Content-Type", "application/vnd.onem2m-res+json; ty=4");
-
-var raw = "{\n    \"m2m:cin\": {\n        \"con\": \"aisl 37.5518018 127.0736345 23.2135\"\n    }\n}";
+myHeaders.append("X-M2M-Origin", "SOrigin");
 
 var requestOptions = {
-    method: 'POST',
+    method: 'GET',
     headers: myHeaders,
-    body: raw,
     redirect: 'follow'
 };
 
-var string
-var arr
-var lat
-var long
-
-
-fetch("http://203.250.148.120:20519/Mobius/kick/gps", requestOptions)
+fetch("http://203.253.128.161:7579/Mobius/kick/gps/la", requestOptions)
 .then(response => response.json())
 .then(result => {
-    console.log(result)
-    console.log(string = result["m2m:cin"].con)
+    //console.log(result)
+    string = result["m2m:cin"].con
     arr = string.split(" ")
-    console.log("lat:", lat = Number(arr[1]))
-    console.log("long:", long = Number(arr[2]))
+    lat = Number(arr[1])
+    long = Number(arr[2])
 })
 .then(result => {
     // 킥보드 위치 받아서 띄우기
