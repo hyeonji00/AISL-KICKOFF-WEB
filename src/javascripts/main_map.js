@@ -20,22 +20,22 @@ var arr
 var lat
 var long
 
-setInterval(function(){
-    fetch("http://203.250.148.120:20519/Mobius/kick/gps/la", requestOptions)
-    .then(response => response.json())
-    .then(result => {
-        console.log(result)
-        console.log(string = result["m2m:cin"].con)
-        arr = string.split(" ")
-        console.log("lat:", lat = Number(arr[1]))
-        console.log("long:", long = Number(arr[2]))
-    })
-    .then(result => {
-        // 킥보드 위치 받아서 띄우기
-        navigator.geolocation.getCurrentPosition(locationLoadSuccess,locationLoadError)
-    })
-    .catch(error => console.log('error', error));
-}, 1000)
+
+fetch("http://203.250.148.120:20519/Mobius/kick/gps", requestOptions)
+.then(response => response.json())
+.then(result => {
+    console.log(result)
+    console.log(string = result["m2m:cin"].con)
+    arr = string.split(" ")
+    console.log("lat:", lat = Number(arr[1]))
+    console.log("long:", long = Number(arr[2]))
+})
+.then(result => {
+    // 킥보드 위치 받아서 띄우기
+    navigator.geolocation.getCurrentPosition(locationLoadSuccess,locationLoadError)
+})
+.catch(error => console.log('error', error));
+
 
 // 실시간으로 데이터 불러오기
 
