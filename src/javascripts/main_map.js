@@ -1,4 +1,4 @@
-// 임의의 킥보드 gps 불러오기
+//실시간으로 킥보드 gps 불러오기
 
 var myHeaders = new Headers();
 myHeaders.append("Accept", "application/json");
@@ -11,25 +11,28 @@ var requestOptions = {
     redirect: 'follow'
 };
 
+
 var string
 var arr
 var lat
 var long
 
-fetch("http://203.253.128.161:7579/Mobius/kick/gps/la", requestOptions)
+setInterval(function(){
+    fetch("http://203.253.128.161:7579/Mobius/kick/gps/la", requestOptions)
     .then(response => response.json())
     .then(result => {
-        // console.log(result)
-        string = result["m2m:cin"].con
+        console.log(result)
+        console.log(string = result["m2m:cin"].con)
         arr = string.split(" ")
-        lat = Number(arr[1])
-        long = Number(arr[2])
+        console.log("lat:", lat = Number(arr[1]))
+        console.log("long:", long = Number(arr[2]))
     })
     .then(result => {
         // 킥보드 위치 받아서 띄우기
         navigator.geolocation.getCurrentPosition(locationLoadSuccess,locationLoadError)
     })
     .catch(error => console.log('error', error));
+}, 1000)
 
 //////////////////////////////////////////////////////////////////////////////
 
@@ -58,111 +61,111 @@ var requestOptions = {
     redirect: 'follow'
 };
 
-    fetch("http://203.253.128.161:7579/Mobius/kick/web_gps/fopt", requestOptions)
-    .then(response => response.json())
-    .then(result => {
+fetch("http://203.253.128.161:7579/Mobius/kick/web_gps/fopt", requestOptions)
+.then(response => response.json())
+.then(result => {
 
-        // 저장되어있는 모든 ID 뽑아오기
-        for (var i = 0; i < result["m2m:agr"]["m2m:rsp"][0]["pc"]["m2m:uril"].length; i++)        {
-            pothole_ID[i] = result["m2m:agr"]["m2m:rsp"][0]["pc"]["m2m:uril"][i].split("/")[3]
-        }
+    // 저장되어있는 모든 ID 뽑아오기
+    for (var i = 0; i < result["m2m:agr"]["m2m:rsp"][0]["pc"]["m2m:uril"].length; i++)        {
+        pothole_ID[i] = result["m2m:agr"]["m2m:rsp"][0]["pc"]["m2m:uril"][i].split("/")[3]
+    }
 
-        for (var i = 0; i < result["m2m:agr"]["m2m:rsp"][1]["pc"]["m2m:uril"].length; i++)        {
-            buff_ID[i] = result["m2m:agr"]["m2m:rsp"][1]["pc"]["m2m:uril"][i].split("/")[3]
-        } 
-        for (var i = 0; i < result["m2m:agr"]["m2m:rsp"][3]["pc"]["m2m:uril"].length; i++)        {
-            parking_ID[i] = result["m2m:agr"]["m2m:rsp"][3]["pc"]["m2m:uril"][i].split("/")[3]
-        }   
-    })
-    .then(result => {
-        //console.log(pothole_ID, buff_ID, school_ID)
-        var ID = [pothole_ID, buff_ID, parking_ID]
+    for (var i = 0; i < result["m2m:agr"]["m2m:rsp"][1]["pc"]["m2m:uril"].length; i++)        {
+        buff_ID[i] = result["m2m:agr"]["m2m:rsp"][1]["pc"]["m2m:uril"][i].split("/")[3]
+    } 
+    for (var i = 0; i < result["m2m:agr"]["m2m:rsp"][3]["pc"]["m2m:uril"].length; i++)        {
+        parking_ID[i] = result["m2m:agr"]["m2m:rsp"][3]["pc"]["m2m:uril"][i].split("/")[3]
+    }   
+})
+.then(result => {
+    //console.log(pothole_ID, buff_ID, school_ID)
+    var ID = [pothole_ID, buff_ID, parking_ID]
 
-        // 포트홀 position 저장
-        for (var i = 0; i < ID[0].length; i++) {
+    // 포트홀 position 저장
+    for (var i = 0; i < ID[0].length; i++) {
 
-            var myHeaders = new Headers();
-            myHeaders.append("Accept", "application/json");
-            myHeaders.append("X-M2M-RI", "12345");
-            myHeaders.append("X-M2M-Origin", "SOrigin");
+        var myHeaders = new Headers();
+        myHeaders.append("Accept", "application/json");
+        myHeaders.append("X-M2M-RI", "12345");
+        myHeaders.append("X-M2M-Origin", "SOrigin");
 
-            var requestOptions = {
-            method: 'GET',
-            headers: myHeaders,
-            redirect: 'follow'
-            };
-            var j = 0
-            fetch("http://203.253.128.161:7579/Mobius/kick/pot_hole/"+ ID[0][i], requestOptions)
-            .then(response => response.json())
-            .then(result => {
-                lat = result["m2m:cin"]["con"].split(" ")[0]
-                long = result["m2m:cin"]["con"].split(" ")[1]
-                potholePositions.push(new kakao.maps.LatLng(lat, long))
-            })
-            .then(result => {
-                // 방지턱 position 저장
-                for (var j = 0; j < ID[1].length; j++) {
+        var requestOptions = {
+        method: 'GET',
+        headers: myHeaders,
+        redirect: 'follow'
+        };
+        var j = 0
+        fetch("http://203.253.128.161:7579/Mobius/kick/pot_hole/"+ ID[0][i], requestOptions)
+        .then(response => response.json())
+        .then(result => {
+            lat = result["m2m:cin"]["con"].split(" ")[0]
+            long = result["m2m:cin"]["con"].split(" ")[1]
+            potholePositions.push(new kakao.maps.LatLng(lat, long))
+        })
+        .then(result => {
+            // 방지턱 position 저장
+            for (var j = 0; j < ID[1].length; j++) {
 
-                    var myHeaders = new Headers();
-                    myHeaders.append("Accept", "application/json");
-                    myHeaders.append("X-M2M-RI", "12345");
-                    myHeaders.append("X-M2M-Origin", "SOrigin");
+                var myHeaders = new Headers();
+                myHeaders.append("Accept", "application/json");
+                myHeaders.append("X-M2M-RI", "12345");
+                myHeaders.append("X-M2M-Origin", "SOrigin");
 
-                    var requestOptions = {
-                    method: 'GET',
-                    headers: myHeaders,
-                    redirect: 'follow'
-                    };
+                var requestOptions = {
+                method: 'GET',
+                headers: myHeaders,
+                redirect: 'follow'
+                };
 
-                    fetch("http://203.253.128.161:7579/Mobius/kick/buff_data/"+ ID[1][j], requestOptions)
-                    .then(response => response.json())
-                    .then(result => {
+                fetch("http://203.253.128.161:7579/Mobius/kick/buff_data/"+ ID[1][j], requestOptions)
+                .then(response => response.json())
+                .then(result => {
 
-                        lat = result["m2m:cin"]["con"].split(" ")[0]
-                        long = result["m2m:cin"]["con"].split(" ")[1]
+                    lat = result["m2m:cin"]["con"].split(" ")[0]
+                    long = result["m2m:cin"]["con"].split(" ")[1]
 
-                        bumpPositions.push(new kakao.maps.LatLng(lat, long))
-                    })
-                    .then(result => {
-                        for (var k = 0; k < ID[2].length; k++) {
-                            var myHeaders = new Headers();
-                            myHeaders.append("Accept", "application/json");
-                            myHeaders.append("X-M2M-RI", "12345");
-                            myHeaders.append("X-M2M-Origin", "SOrigin");
-                
-                            var requestOptions = {
-                            method: 'GET',
-                            headers: myHeaders,
-                            redirect: 'follow'
-                            };
-                            fetch("http://203.253.128.161:7579/Mobius/kick/parking_lot/"+ ID[2][k], requestOptions)
-                            .then(response => response.json())
-                            .then(result => {
-                                lat = result["m2m:cin"]["con"].split(" ")[0]
-                                long = result["m2m:cin"]["con"].split(" ")[1]
+                    bumpPositions.push(new kakao.maps.LatLng(lat, long))
+                })
+                .then(result => {
+                    for (var k = 0; k < ID[2].length; k++) {
+                        var myHeaders = new Headers();
+                        myHeaders.append("Accept", "application/json");
+                        myHeaders.append("X-M2M-RI", "12345");
+                        myHeaders.append("X-M2M-Origin", "SOrigin");
+            
+                        var requestOptions = {
+                        method: 'GET',
+                        headers: myHeaders,
+                        redirect: 'follow'
+                        };
+                        fetch("http://203.253.128.161:7579/Mobius/kick/parking_lot/"+ ID[2][k], requestOptions)
+                        .then(response => response.json())
+                        .then(result => {
+                            lat = result["m2m:cin"]["con"].split(" ")[0]
+                            long = result["m2m:cin"]["con"].split(" ")[1]
 
-                                parkingPositions.push(new kakao.maps.LatLng(lat, long))
-                            })
-                            .then(result => {
+                            parkingPositions.push(new kakao.maps.LatLng(lat, long))
+                        })
+                        .then(result => {
 
-                                createPotholeMarkers()
-                                createBumpMarkers()
-                                createParkingMarkers()
+                            createPotholeMarkers()
+                            createBumpMarkers()
+                            createParkingMarkers()
 
-                                changeMarker("all")
+                            changeMarker("all")
 
-                            })
-                            .catch(error => console.log('error', error));
-                        }
-                    })
-                    .catch(error => console.log('error', error));
-                }
-            })
-            .catch(error => console.log('error', error));
-        }
+                        })
+                        .catch(error => console.log('error', error));
+                    }
+                })
+                .catch(error => console.log('error', error));
+            }
+        })
+        .catch(error => console.log('error', error));
+    }
 
-    })
-    .catch(error => console.log('error', error));
+})
+.catch(error => console.log('error', error));
 
 
 
