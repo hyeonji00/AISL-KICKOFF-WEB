@@ -37,12 +37,14 @@ fetch("http://203.253.128.161:7579/Mobius/kick/gps/la", requestOptions)
 
 var pothole_ID = []
 var buff_ID = []
+var parking_ID = []
 
 var lat
 var long
 
 var potholePositions = []
 var bumpPositions = []
+var parkingPositions = []
 var circle
 
 var myHeaders = new Headers();
@@ -56,8 +58,7 @@ var requestOptions = {
     redirect: 'follow'
 };
 
-
-fetch("http://203.253.128.161:7579/Mobius/kick/web_gps/fopt", requestOptions)
+    fetch("http://203.253.128.161:7579/Mobius/kick/web_gps/fopt", requestOptions)
     .then(response => response.json())
     .then(result => {
 
@@ -68,11 +69,14 @@ fetch("http://203.253.128.161:7579/Mobius/kick/web_gps/fopt", requestOptions)
 
         for (var i = 0; i < result["m2m:agr"]["m2m:rsp"][1]["pc"]["m2m:uril"].length; i++)        {
             buff_ID[i] = result["m2m:agr"]["m2m:rsp"][1]["pc"]["m2m:uril"][i].split("/")[3]
-        }    
+        } 
+        for (var i = 0; i < result["m2m:agr"]["m2m:rsp"][3]["pc"]["m2m:uril"].length; i++)        {
+            parking_ID[i] = result["m2m:agr"]["m2m:rsp"][3]["pc"]["m2m:uril"][i].split("/")[3]
+        }   
     })
     .then(result => {
         //console.log(pothole_ID, buff_ID, school_ID)
-        var ID = [pothole_ID, buff_ID]
+        var ID = [pothole_ID, buff_ID, parking_ID]
 
         // 포트홀 position 저장
         for (var i = 0; i < ID[0].length; i++) {
@@ -113,51 +117,49 @@ fetch("http://203.253.128.161:7579/Mobius/kick/web_gps/fopt", requestOptions)
                     fetch("http://203.253.128.161:7579/Mobius/kick/buff_data/"+ ID[1][j], requestOptions)
                     .then(response => response.json())
                     .then(result => {
-                        lat = result["m2m:cin"]["con"].split(" ")[1]
-                        long = result["m2m:cin"]["con"].split(" ")[2]
+
+                        lat = result["m2m:cin"]["con"].split(" ")[0]
+                        long = result["m2m:cin"]["con"].split(" ")[1]
 
                         bumpPositions.push(new kakao.maps.LatLng(lat, long))
                     })
                     .then(result => {
-                        changeMarker("all")
+                        for (var k = 0; k < ID[2].length; k++) {
+                            var myHeaders = new Headers();
+                            myHeaders.append("Accept", "application/json");
+                            myHeaders.append("X-M2M-RI", "12345");
+                            myHeaders.append("X-M2M-Origin", "SOrigin");
+                
+                            var requestOptions = {
+                            method: 'GET',
+                            headers: myHeaders,
+                            redirect: 'follow'
+                            };
+                            fetch("http://203.253.128.161:7579/Mobius/kick/parking_lot/"+ ID[2][k], requestOptions)
+                            .then(response => response.json())
+                            .then(result => {
+                                lat = result["m2m:cin"]["con"].split(" ")[0]
+                                long = result["m2m:cin"]["con"].split(" ")[1]
 
-                        createPotholeMarkers()
-                        createBumpMarkers()
+                                parkingPositions.push(new kakao.maps.LatLng(lat, long))
+                            })
+                            .then(result => {
+
+                                createPotholeMarkers()
+                                createBumpMarkers()
+                                createParkingMarkers()
+
+                                changeMarker("all")
+
+                            })
+                            .catch(error => console.log('error', error));
+                        }
                     })
                     .catch(error => console.log('error', error));
                 }
             })
             .catch(error => console.log('error', error));
         }
-
-        /*
-        // 스쿨존 position 저장
-        for (var i = 0; i < ID[2].length; i++) {
-
-            var myHeaders = new Headers();
-            myHeaders.append("Accept", "application/json");
-            myHeaders.append("X-M2M-RI", "12345");
-            myHeaders.append("X-M2M-Origin", "SOrigin");
-
-            var requestOptions = {
-            method: 'GET',
-            headers: myHeaders,
-            redirect: 'follow'
-            };
-
-            fetch("http://203.253.128.161:7579/Mobius/kick/schoolzone/"+ ID[2][i], requestOptions)
-            .then(response => response.json())
-            .then(result => {
-                lat = result["m2m:cin"]["con"].split(" ")[1]
-                long = result["m2m:cin"]["con"].split(" ")[2]
-
-                //circle.push(new kakao.maps.LatLng(lat, long))
-            })
-            .catch(error => console.log('error', error));
-        }
-
-        console.log(potholePositions, bumpPositions, circle)
-        */
 
     })
     .catch(error => console.log('error', error));
@@ -225,15 +227,15 @@ function locationLoadError(pos){
 
 // 맵에 마커 띄우기
 
-console.log(potholePositions)
-
 var markerImageSrc = 'https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/category.png';
         potholeMarkers = [], // 포트홀 마커 객체를 가지고 있을 배열
         bumpMarkers = [],
+        parkingMarkers = [],
 
         
     createPotholeMarkers(); // 포트홀 마커를 생성하고 포트홀 마커 배열에 추가
     createBumpMarkers();
+    createParkingMarkers();
 
 
 
@@ -298,6 +300,31 @@ function setBumpMarkers(map) {
     }        
 }
 
+// 주차장 마커를 생성하고 주차장 마커 배열에 추가
+function createParkingMarkers() {
+    
+    for (var i = 0; i < parkingPositions.length; i++) {  
+        
+        var imageSize = new kakao.maps.Size(28, 28); 
+        
+        var markerSrc = '../../assets/parking_color.png'
+
+        // 마커이미지와 마커 생성
+        var markerImage = createMarkerImage(markerSrc, imageSize),    
+            marker = createMarker(parkingPositions[i], markerImage);  
+        
+        // 생성된 마커를 주차장 마커 배열에 추가
+        parkingMarkers.push(marker);
+    }     
+}
+
+// 주차장 마커들의 지도 표시 여부를 설정
+function setParkingMarkers(map) {        
+    for (var i = 0; i < parkingMarkers.length; i++) {  
+        parkingMarkers[i].setMap(map);
+    }        
+}
+
 ///////////////////////////////////////////////////////////////////////////////////
 // 어린이 보호 구역 : gps 제대로 설정
 function createSchoolZone(){
@@ -339,6 +366,7 @@ function changeMarker(type){
         // 모두 표시
         setPotholeMarkers(map);
         setBumpMarkers(map);
+        setParkingMarkers(map);
 
         createSchoolZone();
     }
@@ -351,6 +379,7 @@ function changeMarker(type){
         
         setPotholeMarkers(map);
         setBumpMarkers(null);
+        setParkingMarkers(map);
 
         circle.setMap(null);
     } 
@@ -363,6 +392,7 @@ function changeMarker(type){
         
         setPotholeMarkers(null);
         setBumpMarkers(map);
+        setParkingMarkers(map);
 
         circle.setMap(null);
         
@@ -375,6 +405,7 @@ function changeMarker(type){
 
         setPotholeMarkers(null);
         setBumpMarkers(null);
+        setParkingMarkers(map);
 
         createSchoolZone();
     }
