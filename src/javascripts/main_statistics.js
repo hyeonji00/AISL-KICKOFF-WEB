@@ -44,17 +44,17 @@ setInterval(function(){
 
 				if (j == ID_list.length && all != 0) {
 					document.getElementById("sudden").value = sudden / all * 100
-					document.getElementById("sudden_ment").innerHTML = "급정거 " + Math.round(sudden / all * 100 * 10) / 10 + "%"
+					document.getElementById("sudden_ment").innerHTML = Math.round(sudden / all * 100 * 10) / 10 + "% of the total cumulative penalty points" 
 					document.getElementById("sudden_bar").style = "height:" + (sudden / all).toFixed(2) * 100 + "%"
 					document.getElementById("sudden_bar_").innerHTML = Math.round(sudden / all * 100 * 10) / 10 + "%"
 
 					document.getElementById("buff").value = buff / all * 100
-					document.getElementById("buff_ment").innerHTML = "방지턱 과속 " + Math.round(buff / all * 100 * 10) / 10 + "%"
+					document.getElementById("buff_ment").innerHTML = Math.round(buff / all * 100 * 10) / 10 + "% of the total cumulative penalty points"
 					document.getElementById("buff_bar").style = "height:" + (buff / all).toFixed(2) * 100 + "%"
 					document.getElementById("buff_bar_").innerHTML = Math.round(buff / all * 100 * 10) / 10 + "%"
 
 					document.getElementById("school").value = school / all * 100
-					document.getElementById("school_ment").innerHTML = "보호구역 과속 " + Math.round(school / all * 100 * 10) / 10 + "%"
+					document.getElementById("school_ment").innerHTML = Math.round(school / all * 100 * 10) / 10 + "% of the total cumulative penalty points"
 					document.getElementById("school_bar").style = "height:" + (school / all).toFixed(2) * 100 + "%"
 					document.getElementById("school_bar_").innerHTML = Math.round(school / all * 100 * 10) / 10 + "%"
 

@@ -13,15 +13,15 @@
 		<div id="box"> 
 
 			<nav id="nav">
-				<div class="menu selected">전체 서비스</div>
-				<div class="menu">사용자 관리</div>
-				<div class="menu">데이터 관리</div>
-				<div class="menu">사용자 관리</div>
-				<div class="menu">킥보드 관리</div>
-				<div class="menu">보안</div>
-				<div class="menu">문의사항</div>
-				<div class="menu">고객지원</div>
-				<div class="menu">환경설정</div>
+				<div class="menu selected">Full Service</div>
+				<div class="menu">User Management</div>
+				<div class="menu">Data Management</div>
+				<div class="menu">User Management</div>
+				<div class="menu">Scooter Management</div>
+				<div class="menu">Security</div>
+				<div class="menu">Questions</div>
+				<div class="menu">Customer Support</div>
+				<div class="menu">Settings</div>
 			</nav>
 
 			<div id="map">
@@ -29,19 +29,20 @@
 				<ul>
 					<li id="allMenu" onclick="changeMarker('all')">
 						<span class="ico_comm ico_all"></span>
-						모두
+						All
 					</li>
 					<li id="potholeMenu" onclick="changeMarker('pothole')">
 						<span class="ico_comm ico_pothole"></span>
-						포트홀
+						Pothole
 					</li>
 					<li id="bumpMenu" onclick="changeMarker('bump')">
 						<span class="ico_comm ico_bump"></span>
-						방지턱
+						Bump
 					</li>
 					<li id="schoolMenu" onclick="changeMarker('school')">
 						<span class="ico_comm ico_school"></span>
-						스쿨존
+						School <br>
+						zone
 					</li>
 				</ul>
 			</div>
@@ -50,28 +51,28 @@
 		<div id="right">
 			<div id="statistics">
 				<form id="meter_part">
-					<h3 id="today">위험 운행 현황</h3>
-					<p>급정거</p>
+					<h3 id="today">Dangerous driving status</h3>
+					<p>sudden stop</p>
 					<meter id="sudden" min="0" max="100" low="30" high="60" optimum="10" value="0"></meter>
-					<span id="sudden_ment">누적 벌점 중 급정거</span>
+					<span id="sudden_ment">of the total cumulative penalty points</span>
 					<br>
-					<p>방지턱 과속</p>
+					<p>Speed on the speed bump</p>
 					<meter id="buff" min="0" max="100" low="30" high="60" optimum="10" value="0"></meter>
-					<span id="buff_ment">누적 벌점 중 방지턱 과속</span>
+					<span id="buff_ment">of the total cumulative penalty points</span>
 					<br>
-					<p>보호구역 과속</p>
+					<p>Speeding in the school zone</p>
 					<meter id="school" min="0" max="100" low="30" high="60" optimum="10" value="0"></meter>
-					<span id="school_ment">누적 벌점 중 보호구역 과속</span>
+					<span id="school_ment">of the total cumulative penalty points</span>
 					<br>
 				</form>
 
 				<form id="graph_part">
 					<div class="vGraph">
 						<ul>
-							<li><span class="gTerm">급정거</span><span id="sudden_bar" class="gBar" style="height:0%"><span id="sudden_bar_"></span></span></li>
-							<li><span class="gTerm">방지턱<br>과속</span><span id="buff_bar" class="gBar" style="height:0%"><span id="buff_bar_"></span></span></li>
-							<li><span class="gTerm">보호구역<br>과속</span><span id="school_bar" class="gBar" style="height:33%"><span id="school_bar_"></span></span></li>
-							<li><span class="gTerm">전체(100%)</span><span id="all_bar" class="gBar" style="height:100%"><span id="all_bar_"></span></span></li>
+							<li><span class="gTerm">sudden stop</span><span id="sudden_bar" class="gBar" style="height:0%"><span id="sudden_bar_"></span></span></li>
+							<li><span class="gTerm">Speed on the<br>speed bump</span><span id="buff_bar" class="gBar" style="height:0%"><span id="buff_bar_"></span></span></li>
+							<li><span class="gTerm">Speeding in<br>the school zone</span><span id="school_bar" class="gBar" style="height:33%"><span id="school_bar_"></span></span></li>
+							<li><span class="gTerm">All(100%)</span><span id="all_bar" class="gBar" style="height:100%"><span id="all_bar_"></span></span></li>
 						</ul>
 					</div>
 				</form>				
@@ -81,9 +82,9 @@
 					<img id="user_img" src="../assets/user.png">
 					<table id="table_1" class="user_table_1">
 						<tr>
-							<th>급정거</th>
-							<th>방지턱 과속</th>
-							<th>보호구역 과속</th>
+							<th>sudden stop</th>
+							<th>Speed on the<br>speed bump</th>
+							<th>Speeding in<br>the school zone</th>
 						</tr>
 						<tr>
 							<td id="sudden_stop">-</td>
@@ -93,8 +94,8 @@
 					</table>
 					<table id="table_2" class="user_table_1">
 						<tr>
-							<th>등급</th>
-							<th>안전/위험</th>
+							<th>rating</th>
+							<th>safety/danger</th>
 						</tr>
 						<tr>
 							<td id="rating">-</td>
@@ -105,11 +106,11 @@
 					<table id="table_3" class="user_table_2">
 						<tr>
 							<th>ID</th>
-							<th>이름</th>
-							<th>생년</th>
-							<th>면허증 취득일</th>
-							<th>운행시간(s)</th>
-							<th>등급</th>
+							<th>name</th>
+							<th>birth year</th>
+							<th>Certificate<br>Acquisition Date</th>
+							<th>driving time(s)</th>
+							<th>rating</th>
 						</tr>
 						<tr>
 							<td id="m_1">-</td>
@@ -126,11 +127,11 @@
 				<table id="table_3" class="users_table">
 					<tr>
 						<th>ID</th>
-						<th>이름</th>
-						<th>생년</th>
-						<th>면허증 취득일</th>
-						<th>운행시간(s)</th>
-						<th>등급</th>
+						<th>name</th>
+						<th>birth year</th>
+						<th>Acquisition Date</th>
+						<th>driving time(s)</th>
+						<th>rating</th>
 					</tr>
 					<tr id="user_1">
 						<td id="u1_1">-</td>

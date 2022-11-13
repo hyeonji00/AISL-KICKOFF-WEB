@@ -18,19 +18,19 @@ function color() {
 function moveToMain(){
     if (loginId.value == "kickoffadmin") {
         if (loginPw.value == "aisl1234!") {
-            alert('관리자 아이디로 로그인 되었습니다.')
+            alert('You are logged in with your administrator ID.')
             location.replace("./main.html");
         }
         else {
-            alert('아이디와 비밀번호를 다시 한 번 확인해주세요.')
+            alert('Please check your ID and password again.')
             errStack ++;
         }
     }
     else {
-        alert('존재하지 않는 계정입니다.')
+        alert('This account does not exist.')
     }
     if (errStack >= 5) {
-        alert('비밀번호를 5회 이상 틀리셨습니다. 비밀번호 찾기를 권장드립니다.')
+        alert("You've got your password wrong more than five times. I recommend you find your password.")
     }
 }
 
