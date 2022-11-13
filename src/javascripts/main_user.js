@@ -69,59 +69,116 @@ setInterval(function(){
 		.then(response => response.json())
 		.then(result => {
 	
-			for (var i = 1; i < 2; i++) {
-				if (i == 6){
-					break
-				}
-				ID_list[i] = result["m2m:uril"][i].split("/")[3]
-	
-				var j = 0
-				
-				fetch("http://203.253.128.161:7579/Mobius/kick_user/Account/" + ID_list[i], requestOptions)
-				.then(response => response.json())
-				.then(result => {
-					var rst_list = result["m2m:cin"]["con"].split(" ")
-					// console.log(rst_list)
-					document.getElementById("u2_1").innerHTML = rst_list[0]
-					document.getElementById("u2_2").innerHTML = rst_list[1]
-					document.getElementById("u2_3").innerHTML = rst_list[2]
-					document.getElementById("u2_4").innerHTML = rst_list[4]
-					document.getElementById("u2_5").innerHTML = rst_list[5]
-					document.getElementById("u2_6").innerHTML = rst_list[6]
-	
-					j++
-				})
-	
-				fetch("http://203.253.128.161:7579/Mobius/kick_user/Account/la", requestOptions)
-				.then(response => response.json())
-				.then(result => {
-					var rst_list = result["m2m:cin"]["con"].split(" ")
-					// console.log(rst_list)
-					document.getElementById("u1_1").innerHTML = rst_list[0]
-					document.getElementById("u1_2").innerHTML = rst_list[1]
-					document.getElementById("u1_3").innerHTML = rst_list[2]
-					document.getElementById("u1_4").innerHTML = rst_list[4]
-					document.getElementById("u1_5").innerHTML = rst_list[5]
-					document.getElementById("u1_6").innerHTML = rst_list[6]
+			ID_list = result["m2m:uril"][1].split("/")[3]
 
-					document.getElementById("m_1").innerHTML = rst_list[0]
-					document.getElementById("m_2").innerHTML = rst_list[1]
-					document.getElementById("m_3").innerHTML = rst_list[2]
-					document.getElementById("m_4").innerHTML = rst_list[4]
-					document.getElementById("m_5").innerHTML = rst_list[5]
-					document.getElementById("m_6").innerHTML = rst_list[6]
+			fetch("http://203.253.128.161:7579/Mobius/kick_user/Account/" + ID_list, requestOptions)
+			.then(response => response.json())
+			.then(result => {
+				var rst_list = result["m2m:cin"]["con"].split(" ")
+				// console.log(rst_list)
+				document.getElementById("u2_1").innerHTML = rst_list[0]
+				document.getElementById("u2_2").innerHTML = rst_list[1]
+				document.getElementById("u2_3").innerHTML = rst_list[2]
+				document.getElementById("u2_4").innerHTML = rst_list[4]
+				document.getElementById("u2_5").innerHTML = rst_list[5]
+				document.getElementById("u2_6").innerHTML = rst_list[6]
 
-					document.getElementById("rating").innerHTML = rst_list[6]
-					document.getElementById("safety_danger").innerHTML = rst_list[7]
+			})
 
-					document.getElementById("sudden_stop").innerHTML = rst_list[9]
-					document.getElementById("buff_speed").innerHTML = rst_list[10]
-					document.getElementById("schoolzone_speed").innerHTML = rst_list[11]
-				})
-	
-				
-				.catch(error => console.log('error', error));
-			}
+			ID_list = result["m2m:uril"][2].split("/")[3]
+
+			fetch("http://203.253.128.161:7579/Mobius/kick_user/Account/" + ID_list, requestOptions)
+			.then(response => response.json())
+			.then(result => {
+				var rst_list = result["m2m:cin"]["con"].split(" ")
+				// console.log(rst_list)
+				document.getElementById("u3_1").innerHTML = rst_list[0]
+				document.getElementById("u3_2").innerHTML = rst_list[1]
+				document.getElementById("u3_3").innerHTML = rst_list[2]
+				document.getElementById("u3_4").innerHTML = rst_list[4]
+				document.getElementById("u3_5").innerHTML = rst_list[5]
+				document.getElementById("u3_6").innerHTML = rst_list[6]
+
+			})
+
+			ID_list = result["m2m:uril"][3].split("/")[3]
+
+			fetch("http://203.253.128.161:7579/Mobius/kick_user/Account/" + ID_list, requestOptions)
+			.then(response => response.json())
+			.then(result => {
+				var rst_list = result["m2m:cin"]["con"].split(" ")
+				// console.log(rst_list)
+				document.getElementById("u4_1").innerHTML = rst_list[0]
+				document.getElementById("u4_2").innerHTML = rst_list[1]
+				document.getElementById("u4_3").innerHTML = rst_list[2]
+				document.getElementById("u4_4").innerHTML = rst_list[4]
+				document.getElementById("u4_5").innerHTML = rst_list[5]
+				document.getElementById("u4_6").innerHTML = rst_list[6]
+
+			})
+
+			ID_list = result["m2m:uril"][5].split("/")[3]
+
+			fetch("http://203.253.128.161:7579/Mobius/kick_user/Account/" + ID_list, requestOptions)
+			.then(response => response.json())
+			.then(result => {
+				var rst_list = result["m2m:cin"]["con"].split(" ")
+				// console.log(rst_list)
+				document.getElementById("u5_1").innerHTML = rst_list[0]
+				document.getElementById("u5_2").innerHTML = rst_list[1]
+				document.getElementById("u5_3").innerHTML = rst_list[2]
+				document.getElementById("u5_4").innerHTML = rst_list[4]
+				document.getElementById("u5_5").innerHTML = rst_list[5]
+				document.getElementById("u5_6").innerHTML = rst_list[6]
+
+			})
+
+			ID_list = result["m2m:uril"][6].split("/")[3]
+
+			fetch("http://203.253.128.161:7579/Mobius/kick_user/Account/" + ID_list, requestOptions)
+			.then(response => response.json())
+			.then(result => {
+				var rst_list = result["m2m:cin"]["con"].split(" ")
+				// console.log(rst_list)
+				document.getElementById("u6_1").innerHTML = rst_list[0]
+				document.getElementById("u6_2").innerHTML = rst_list[1]
+				document.getElementById("u6_3").innerHTML = rst_list[2]
+				document.getElementById("u6_4").innerHTML = rst_list[4]
+				document.getElementById("u6_5").innerHTML = rst_list[5]
+				document.getElementById("u6_6").innerHTML = rst_list[6]
+
+			})
+
+
+			fetch("http://203.253.128.161:7579/Mobius/kick_user/Account/la", requestOptions)
+			.then(response => response.json())
+			.then(result => {
+				var rst_list = result["m2m:cin"]["con"].split(" ")
+				// console.log(rst_list)
+				document.getElementById("u1_1").innerHTML = rst_list[0]
+				document.getElementById("u1_2").innerHTML = rst_list[1]
+				document.getElementById("u1_3").innerHTML = rst_list[2]
+				document.getElementById("u1_4").innerHTML = rst_list[4]
+				document.getElementById("u1_5").innerHTML = rst_list[5]
+				document.getElementById("u1_6").innerHTML = rst_list[6]
+
+				document.getElementById("m_1").innerHTML = rst_list[0]
+				document.getElementById("m_2").innerHTML = rst_list[1]
+				document.getElementById("m_3").innerHTML = rst_list[2]
+				document.getElementById("m_4").innerHTML = rst_list[4]
+				document.getElementById("m_5").innerHTML = rst_list[5]
+				document.getElementById("m_6").innerHTML = rst_list[6]
+
+				document.getElementById("rating").innerHTML = rst_list[6]
+				document.getElementById("safety_danger").innerHTML = rst_list[7]
+
+				document.getElementById("sudden_stop").innerHTML = rst_list[9]
+				document.getElementById("buff_speed").innerHTML = rst_list[10]
+				document.getElementById("schoolzone_speed").innerHTML = rst_list[11]
+			})
+
+			
+			.catch(error => console.log('error', error));
 		})
 		.catch(error => console.log('error', error));
 		
