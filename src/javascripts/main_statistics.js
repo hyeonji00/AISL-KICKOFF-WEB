@@ -9,6 +9,7 @@ var requestOptions = {
 	redirect: 'follow'
 };
 
+
 ID_list = []
 
 var all = 0
@@ -16,7 +17,8 @@ var sudden = 0
 var buff = 0
 var school = 0
 
-fetch("http://203.253.128.161:7579/Mobius/kick_user/Account?fu=1&ty=4", requestOptions)
+setInterval(function(){
+	fetch("http://203.253.128.161:7579/Mobius/kick_user/Account?fu=1&ty=4", requestOptions)
 	.then(response => response.json())
 	.then(result => {
 
@@ -64,3 +66,5 @@ fetch("http://203.253.128.161:7579/Mobius/kick_user/Account?fu=1&ty=4", requestO
 		}
 	})
 	.catch(error => console.log('error', error));
+})
+
