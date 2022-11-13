@@ -21,9 +21,6 @@ fetch("http://203.253.128.161:7579/Mobius/kick_user/Account?fu=1&ty=4", requestO
 	.then(result => {
 
 		for (var i = 0; i < result["m2m:uril"].length; i++) {
-			if (i == 6){
-				break
-			}
 			ID_list[i] = result["m2m:uril"][i].split("/")[3]
 
 			var j = 0
@@ -32,9 +29,9 @@ fetch("http://203.253.128.161:7579/Mobius/kick_user/Account?fu=1&ty=4", requestO
 			.then(response => response.json())
 			.then(result => {
 				var rst_list = result["m2m:cin"]["con"].split(" ")
-				//console.log(rst_list)
+				console.log(rst_list)
 				
-				if (rst_list.length == 12){
+				if (rst_list.length == 13){
 					all += Number(rst_list[8])
 					sudden += Number(rst_list[9])
 					buff += Number(rst_list[10])

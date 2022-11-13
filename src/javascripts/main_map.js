@@ -21,11 +21,10 @@ setInterval(function(){
     fetch("http://203.253.128.161:7579/Mobius/kick/gps/la", requestOptions)
     .then(response => response.json())
     .then(result => {
-        console.log(result)
-        console.log(string = result["m2m:cin"].con)
+        string = result["m2m:cin"].con
         arr = string.split(" ")
-        console.log("lat:", lat = Number(arr[1]))
-        console.log("long:", long = Number(arr[2]))
+        lat = Number(arr[1])
+        long = Number(arr[2])
     })
     .then(result => {
         // 킥보드 위치 받아서 띄우기
