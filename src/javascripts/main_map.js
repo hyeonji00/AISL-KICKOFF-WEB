@@ -18,7 +18,7 @@ var lat
 var long
 
 setInterval(function(){
-    fetch("http://203.253.128.161:7579/Mobius/kick/gps/la", requestOptions)
+    fetch("http://203.253.128.161:7579/Mobius/kick_off/data/gps/la", requestOptions)
     .then(response => response.json())
     .then(result => {
         string = result["m2m:cin"].con
@@ -60,25 +60,25 @@ var requestOptions = {
     redirect: 'follow'
 };
 
-fetch("http://203.253.128.161:7579/Mobius/kick/web_gps/fopt", requestOptions)
+fetch("http://203.253.128.161:7579/Mobius/kick_off/web_grp/fopt", requestOptions)
 .then(response => response.json())
 .then(result => {
 
     // 저장되어있는 모든 ID 뽑아오기
     for (var i = 0; i < result["m2m:agr"]["m2m:rsp"][0]["pc"]["m2m:uril"].length; i++)        {
-        pothole_ID[i] = result["m2m:agr"]["m2m:rsp"][0]["pc"]["m2m:uril"][i].split("/")[3]
+        pothole_ID[i] = result["m2m:agr"]["m2m:rsp"][0]["pc"]["m2m:uril"][i].split("/")[5]
     }
 
     for (var i = 0; i < result["m2m:agr"]["m2m:rsp"][1]["pc"]["m2m:uril"].length; i++)        {
-        buff_ID[i] = result["m2m:agr"]["m2m:rsp"][1]["pc"]["m2m:uril"][i].split("/")[3]
+        buff_ID[i] = result["m2m:agr"]["m2m:rsp"][1]["pc"]["m2m:uril"][i].split("/")[5]
     } 
     for (var i = 0; i < result["m2m:agr"]["m2m:rsp"][3]["pc"]["m2m:uril"].length; i++)        {
-        parking_ID[i] = result["m2m:agr"]["m2m:rsp"][3]["pc"]["m2m:uril"][i].split("/")[3]
+        parking_ID[i] = result["m2m:agr"]["m2m:rsp"][3]["pc"]["m2m:uril"][i].split("/")[5]
     }   
 })
 .then(result => {
-    //console.log(pothole_ID, buff_ID, school_ID)
     var ID = [pothole_ID, buff_ID, parking_ID]
+    console.log(ID)
 
     // 포트홀 position 저장
     for (var i = 0; i < ID[0].length; i++) {
@@ -94,7 +94,7 @@ fetch("http://203.253.128.161:7579/Mobius/kick/web_gps/fopt", requestOptions)
         redirect: 'follow'
         };
         var j = 0
-        fetch("http://203.253.128.161:7579/Mobius/kick/pot_hole/"+ ID[0][i], requestOptions)
+        fetch("http://203.253.128.161:7579/Mobius/kick_off/map/pothole/gps/"+ ID[0][i], requestOptions)
         .then(response => response.json())
         .then(result => {
             lat = result["m2m:cin"]["con"].split(" ")[0]
@@ -116,7 +116,7 @@ fetch("http://203.253.128.161:7579/Mobius/kick/web_gps/fopt", requestOptions)
                 redirect: 'follow'
                 };
 
-                fetch("http://203.253.128.161:7579/Mobius/kick/buff_data/"+ ID[1][j], requestOptions)
+                fetch("http://203.253.128.161:7579/Mobius/kick_off/map/speed_bump/gps/"+ ID[1][j], requestOptions)
                 .then(response => response.json())
                 .then(result => {
 
@@ -137,7 +137,7 @@ fetch("http://203.253.128.161:7579/Mobius/kick/web_gps/fopt", requestOptions)
                         headers: myHeaders,
                         redirect: 'follow'
                         };
-                        fetch("http://203.253.128.161:7579/Mobius/kick/parking_lot/"+ ID[2][k], requestOptions)
+                        fetch("http://203.253.128.161:7579/Mobius/kick_off/map/parking_space/gps/"+ ID[2][k], requestOptions)
                         .then(response => response.json())
                         .then(result => {
                             lat = result["m2m:cin"]["con"].split(" ")[0]

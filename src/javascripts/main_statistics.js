@@ -10,36 +10,34 @@ var requestOptions = {
 };
 
 
-ID_list = []
-
-var all = 0
-var sudden = 0
-var buff = 0
-var school = 0
-
 setInterval(function(){
-	fetch("http://203.253.128.161:7579/Mobius/kick_user/Account?fu=1&ty=4", requestOptions)
+	fetch("http://203.253.128.161:7579/Mobius/kick_off/user/account?fu=1&ty=4", requestOptions)
 	.then(response => response.json())
 	.then(result => {
+		
+		var ID_list = []
 
+		var all = 0
+		var sudden = 0
+		var buff = 0
+		var school = 0
 		for (var i = 0; i < result["m2m:uril"].length; i++) {
-			ID_list[i] = result["m2m:uril"][i].split("/")[3]
+
+			ID_list[i] = result["m2m:uril"][i].split("/")[4]
 
 			var j = 0
-			
-			fetch("http://203.253.128.161:7579/Mobius/kick_user/Account/" + ID_list[i], requestOptions)
+
+			fetch("http://203.253.128.161:7579/Mobius/kick_off/user/account/" + ID_list[i], requestOptions)
 			.then(response => response.json())
 			.then(result => {
 				var rst_list = result["m2m:cin"]["con"].split(" ")
-				console.log(rst_list)
-				
+
 				if (rst_list.length == 13){
 					all += Number(rst_list[8])
 					sudden += Number(rst_list[9])
 					buff += Number(rst_list[10])
 					school += Number(rst_list[11])
 				}
-
 				j++
 
 				if (j == ID_list.length && all != 0) {
@@ -63,8 +61,11 @@ setInterval(function(){
 				}
 			})
 			.catch(error => console.log('error', error));
+
+			
 		}
 	})
 	.catch(error => console.log('error', error));
-})
+
+}, 1000)
 

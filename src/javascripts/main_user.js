@@ -67,16 +67,15 @@ var requestOptions = {
 	redirect: 'follow'
 };
 
-console.log(num)
 
 setInterval(function(){
 	ID_list = []
 
-	fetch("http://203.253.128.161:7579/Mobius/kick_user/Account?fu=1&ty=4", requestOptions)
+	fetch("http://203.253.128.161:7579/Mobius/kick_off/user/account?fu=1&ty=4", requestOptions)
 		.then(response => response.json())
 		.then(result => {
 
-			fetch("http://203.253.128.161:7579/Mobius/kick_user/Account/la", requestOptions)
+			fetch("http://203.253.128.161:7579/Mobius/kick_off/user/account/la", requestOptions)
 				.then(response => response.json())
 				.then(result => {
 					var rst_list = result["m2m:cin"]["con"].split(" ")
@@ -106,9 +105,9 @@ setInterval(function(){
 				})
 				.catch(error => console.log('error', error));
 	
-			ID_list = result["m2m:uril"][1].split("/")[3]
+			ID_list = result["m2m:uril"][0].split("/")[4]
 
-			fetch("http://203.253.128.161:7579/Mobius/kick_user/Account/" + ID_list, requestOptions)
+			fetch("http://203.253.128.161:7579/Mobius/kick_off/user/account/" + ID_list, requestOptions)
 			.then(response => response.json())
 			.then(result => {
 				var rst_list = result["m2m:cin"]["con"].split(" ")
@@ -138,9 +137,9 @@ setInterval(function(){
 
 			})
 
-			ID_list = result["m2m:uril"][2].split("/")[3]
+			ID_list = result["m2m:uril"][1].split("/")[4]
 
-			fetch("http://203.253.128.161:7579/Mobius/kick_user/Account/" + ID_list, requestOptions)
+			fetch("http://203.253.128.161:7579/Mobius/kick_off/user/account/" + ID_list, requestOptions)
 			.then(response => response.json())
 			.then(result => {
 				var rst_list = result["m2m:cin"]["con"].split(" ")
@@ -170,9 +169,9 @@ setInterval(function(){
 
 			})
 
-			ID_list = result["m2m:uril"][3].split("/")[3]
+			ID_list = result["m2m:uril"][2].split("/")[4]
 
-			fetch("http://203.253.128.161:7579/Mobius/kick_user/Account/" + ID_list, requestOptions)
+			fetch("http://203.253.128.161:7579/Mobius/kick_off/user/account/" + ID_list, requestOptions)
 			.then(response => response.json())
 			.then(result => {
 				var rst_list = result["m2m:cin"]["con"].split(" ")
@@ -202,9 +201,9 @@ setInterval(function(){
 
 			})
 
-			ID_list = result["m2m:uril"][5].split("/")[3]
+			ID_list = result["m2m:uril"][3].split("/")[4]
 
-			fetch("http://203.253.128.161:7579/Mobius/kick_user/Account/" + ID_list, requestOptions)
+			fetch("http://203.253.128.161:7579/Mobius/kick_off/user/account/" + ID_list, requestOptions)
 			.then(response => response.json())
 			.then(result => {
 				var rst_list = result["m2m:cin"]["con"].split(" ")
@@ -234,9 +233,9 @@ setInterval(function(){
 
 			})
 
-			ID_list = result["m2m:uril"][6].split("/")[3]
+			ID_list = result["m2m:uril"][4].split("/")[4]
 
-			fetch("http://203.253.128.161:7579/Mobius/kick_user/Account/" + ID_list, requestOptions)
+			fetch("http://203.253.128.161:7579/Mobius/kick_off/user/account/" + ID_list, requestOptions)
 			.then(response => response.json())
 			.then(result => {
 				var rst_list = result["m2m:cin"]["con"].split(" ")
