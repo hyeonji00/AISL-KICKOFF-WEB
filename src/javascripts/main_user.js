@@ -1,5 +1,5 @@
 function modal(id) {
-	var zIndex = 9999;
+	var zIndex = 20519;
 	var modal = document.getElementById(id);
 
 	// 모달 div 뒤에 희끄무레한 레이어
@@ -26,7 +26,7 @@ function modal(id) {
 	modal.setStyle({
 		position: 'fixed',
 		display: 'block',
-		boxShadow: '0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19)',
+		boxShadow: '0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.120519)',
 
 		// 시꺼먼 레이어 보다 한칸 위에 보이기
 		zIndex: zIndex + 1,
@@ -71,11 +71,11 @@ var requestOptions = {
 setInterval(function(){
 	ID_list = []
 
-	fetch("http://203.253.128.161:7579/Mobius/kick_off/user/account?fu=1&ty=4", requestOptions)
+	fetch("http://203.250.148.120:20519/Mobius/kick_off/user/account?fu=1&ty=4", requestOptions)
 		.then(response => response.json())
 		.then(result => {
 
-			fetch("http://203.253.128.161:7579/Mobius/kick_off/user/account/la", requestOptions)
+			fetch("http://203.250.148.120:20519/Mobius/kick_off/user/account/la", requestOptions)
 				.then(response => response.json())
 				.then(result => {
 					var rst_list = result["m2m:cin"]["con"].split(" ")
@@ -105,9 +105,9 @@ setInterval(function(){
 				})
 				.catch(error => console.log('error', error));
 	
-			ID_list = result["m2m:uril"][0].split("/")[4]
+			ID_list = result["m2m:uril"][1].split("/")[4]
 
-			fetch("http://203.253.128.161:7579/Mobius/kick_off/user/account/" + ID_list, requestOptions)
+			fetch("http://203.250.148.120:20519/Mobius/kick_off/user/account/" + ID_list, requestOptions)
 			.then(response => response.json())
 			.then(result => {
 				var rst_list = result["m2m:cin"]["con"].split(" ")
@@ -137,9 +137,9 @@ setInterval(function(){
 
 			})
 
-			ID_list = result["m2m:uril"][1].split("/")[4]
+			ID_list = result["m2m:uril"][2].split("/")[4]
 
-			fetch("http://203.253.128.161:7579/Mobius/kick_off/user/account/" + ID_list, requestOptions)
+			fetch("http://203.250.148.120:20519/Mobius/kick_off/user/account/" + ID_list, requestOptions)
 			.then(response => response.json())
 			.then(result => {
 				var rst_list = result["m2m:cin"]["con"].split(" ")
@@ -169,9 +169,9 @@ setInterval(function(){
 
 			})
 
-			ID_list = result["m2m:uril"][2].split("/")[4]
+			ID_list = result["m2m:uril"][3].split("/")[4]
 
-			fetch("http://203.253.128.161:7579/Mobius/kick_off/user/account/" + ID_list, requestOptions)
+			fetch("http://203.250.148.120:20519/Mobius/kick_off/user/account/" + ID_list, requestOptions)
 			.then(response => response.json())
 			.then(result => {
 				var rst_list = result["m2m:cin"]["con"].split(" ")
@@ -201,9 +201,9 @@ setInterval(function(){
 
 			})
 
-			ID_list = result["m2m:uril"][3].split("/")[4]
+			ID_list = result["m2m:uril"][4].split("/")[4]
 
-			fetch("http://203.253.128.161:7579/Mobius/kick_off/user/account/" + ID_list, requestOptions)
+			fetch("http://203.250.148.120:20519/Mobius/kick_off/user/account/" + ID_list, requestOptions)
 			.then(response => response.json())
 			.then(result => {
 				var rst_list = result["m2m:cin"]["con"].split(" ")
@@ -233,9 +233,9 @@ setInterval(function(){
 
 			})
 
-			ID_list = result["m2m:uril"][4].split("/")[4]
+			ID_list = result["m2m:uril"][5].split("/")[4]
 
-			fetch("http://203.253.128.161:7579/Mobius/kick_off/user/account/" + ID_list, requestOptions)
+			fetch("http://203.250.148.120:20519/Mobius/kick_off/user/account/" + ID_list, requestOptions)
 			.then(response => response.json())
 			.then(result => {
 				var rst_list = result["m2m:cin"]["con"].split(" ")

@@ -11,7 +11,7 @@ var requestOptions = {
 
 
 setInterval(function(){
-	fetch("http://203.253.128.161:7579/Mobius/kick_off/user/account?fu=1&ty=4", requestOptions)
+	fetch("http://203.250.148.120:20519/Mobius/kick_off/user/account?fu=1&ty=4", requestOptions)
 	.then(response => response.json())
 	.then(result => {
 		
@@ -27,7 +27,7 @@ setInterval(function(){
 
 			var j = 0
 
-			fetch("http://203.253.128.161:7579/Mobius/kick_off/user/account/" + ID_list[i], requestOptions)
+			fetch("http://203.250.148.120:20519/Mobius/kick_off/user/account/" + ID_list[i], requestOptions)
 			.then(response => response.json())
 			.then(result => {
 				var rst_list = result["m2m:cin"]["con"].split(" ")

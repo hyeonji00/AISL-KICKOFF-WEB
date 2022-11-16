@@ -18,7 +18,7 @@ var lat
 var long
 
 setInterval(function(){
-    fetch("http://203.253.128.161:7579/Mobius/kick_off/data/gps/la", requestOptions)
+    fetch("http://203.250.148.120:20519/Mobius/kick_off/data/gps/la", requestOptions)
     .then(response => response.json())
     .then(result => {
         string = result["m2m:cin"].con
@@ -60,7 +60,7 @@ var requestOptions = {
     redirect: 'follow'
 };
 
-fetch("http://203.253.128.161:7579/Mobius/kick_off/web_grp/fopt", requestOptions)
+fetch("http://203.250.148.120:20519/Mobius/kick_off/web_grp/fopt", requestOptions)
 .then(response => response.json())
 .then(result => {
 
@@ -94,7 +94,7 @@ fetch("http://203.253.128.161:7579/Mobius/kick_off/web_grp/fopt", requestOptions
         redirect: 'follow'
         };
         var j = 0
-        fetch("http://203.253.128.161:7579/Mobius/kick_off/map/pothole/gps/"+ ID[0][i], requestOptions)
+        fetch("http://203.250.148.120:20519/Mobius/kick_off/map/pothole/gps/"+ ID[0][i], requestOptions)
         .then(response => response.json())
         .then(result => {
             lat = result["m2m:cin"]["con"].split(" ")[0]
@@ -116,7 +116,7 @@ fetch("http://203.253.128.161:7579/Mobius/kick_off/web_grp/fopt", requestOptions
                 redirect: 'follow'
                 };
 
-                fetch("http://203.253.128.161:7579/Mobius/kick_off/map/speed_bump/gps/"+ ID[1][j], requestOptions)
+                fetch("http://203.250.148.120:20519/Mobius/kick_off/map/speed_bump/gps/"+ ID[1][j], requestOptions)
                 .then(response => response.json())
                 .then(result => {
 
@@ -137,7 +137,7 @@ fetch("http://203.253.128.161:7579/Mobius/kick_off/web_grp/fopt", requestOptions
                         headers: myHeaders,
                         redirect: 'follow'
                         };
-                        fetch("http://203.253.128.161:7579/Mobius/kick_off/map/parking_space/gps/"+ ID[2][k], requestOptions)
+                        fetch("http://203.250.148.120:20519/Mobius/kick_off/map/parking_space/gps/"+ ID[2][k], requestOptions)
                         .then(response => response.json())
                         .then(result => {
                             lat = result["m2m:cin"]["con"].split(" ")[0]
